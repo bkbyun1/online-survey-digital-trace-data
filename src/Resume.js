@@ -54,7 +54,7 @@ export default class Resume extends React.Component {
 		const isMan = Math.random() < 0.5;
 
 		let nameIndex = 0;
-		let name = this.state.maleCandidates[nameIndex].legal_name
+		let name = this.state.applicants[nameIndex].legal_name
 
 		// Select parenthood
 		const isParent = Math.random() < 0.5;
@@ -253,26 +253,22 @@ export default class Resume extends React.Component {
 
 	/** Fetches the candidate data (name and gender) from the database and stores it in state */
 	parseCandidateData(callbackFunc) {
-		const rawData = this.db.collection("candidates");
 		const applicantData = this.db.collection("Applicants");
 
-		const maleCandidates = [];
-		const femaleCandidates = [];
 		const applicants = [];
 
 		applicantData
 			.get()
 			.then((querySnapshot) => {
 				querySnapshot.forEach((doc) => {
-					maleCandidates.push(doc.data());
+					applicants.push(doc.data());
 				});
 			})
 			.then(() => {
 				// Set to state and call callback
 				this.setState(
 					{
-						maleCandidates: maleCandidates,
-						femaleCandidates: femaleCandidates,
+						applicants: applicants,
 					},
 					callbackFunc
 				);
@@ -336,28 +332,8 @@ export default class Resume extends React.Component {
 								Student Information
 							</div>
 							<p>
-								Legal name: {this.state.name ||
-									`Candidate ${this.state.resumeVersion === 1 ? "1" : "2"}`}
+								Legal name: {this.state.name}
 							</p>
-
-							<div className="votingblock_notes">
-								<VotingBlock
-									sectionName="notes"
-									recordActivity={this.recordActivity}
-								/>
-
-								<div className="notes">
-									Notes from Initial Phone Screen:
-									<ul>
-										{this.state.remoteNotesText && (
-											<li>
-												{this.replaceGenderOptions(this.state.remoteNotesText)}
-											</li>
-										)}
-									</ul>
-								</div>
-							</div>
-
 							<Accordion>
 								{/* Education Section */}
 								<Card>
