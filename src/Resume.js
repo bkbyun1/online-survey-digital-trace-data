@@ -53,8 +53,7 @@ export default class Resume extends React.Component {
 		// Select gender
 		const isMan = Math.random() < 0.5;
 
-		let nameIndex = 0;
-		let applicant = this.state.applicants[nameIndex];
+		let applicant = this.state.applicants[0];
 		let name = applicant.legal_name;
 
 		// Select parenthood
@@ -76,7 +75,6 @@ export default class Resume extends React.Component {
 				education: education,
 				work1: work1,
 				work2: work2,
-				nameIndex: nameIndex,
 				name: applicant.legal_name,
 				college: applicant.college,
 				major: applicant.major,
@@ -97,7 +95,6 @@ export default class Resume extends React.Component {
 			work1: work1,
 			work2: work2,
 			name: name,
-			nameIndex: nameIndex,
 		});
 	}
 
