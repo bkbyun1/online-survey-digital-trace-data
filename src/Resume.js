@@ -42,7 +42,7 @@ export default class Resume extends React.Component {
 					this.getResume1Values(this.displayValues);
 				} else {
 					// Show the appropriate resume data
-					this.getResume2Values(this.displayValues);
+					// this.getResume2Values(this.displayValues);
 				}
 			});
 		});
@@ -442,29 +442,7 @@ export default class Resume extends React.Component {
 									{/* Position List */}
 									<Accordion.Collapse eventKey="1">
 										<Card.Body>
-											{this.state.positionList.map((position, index) => {
-												return (
-													<div key={index}>
-														<div className="votingblock">
-															<VotingBlock
-																sectionName={`work${index + 1}`}
-																recordActivity={this.recordActivity}
-															/>
-
-															<div id="subtext">
-																{" "}
-																{position.title}
-																<div id="horizontal">
-																	<div id="subinfo">{position.company}</div>
-																</div>
-																<div id="subinfogray">{position.duration}</div>
-																<div id="subinfo">{position.description}</div>
-															</div>
-														</div>
-														<Divider />
-													</div>
-												);
-											})}
+											<img src={imageToURL("tier1_app1")}></img>
 										</Card.Body>
 									</Accordion.Collapse>
 								</Card>
