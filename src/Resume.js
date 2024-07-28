@@ -54,7 +54,9 @@ export default class Resume extends React.Component {
 		const isMan = Math.random() < 0.5;
 
 		let nameIndex = 0;
-		let name = this.state.applicants[nameIndex].legal_name
+		let name = this.state.applicants[nameIndex].legal_name;
+		let college = this.state.applicants[nameIndex].college;
+		let major = this.state.applicants[nameIndex].major;
 
 		// Select parenthood
 		const isParent = Math.random() < 0.5;
@@ -77,6 +79,8 @@ export default class Resume extends React.Component {
 				work2: work2,
 				name: name,
 				nameIndex: nameIndex,
+				college: college,
+				major: major,
 			},
 			// Now that info is in state, call the callback
 			callback
@@ -208,7 +212,6 @@ export default class Resume extends React.Component {
 			.then((doc) => {
 				this.setState({ degree: doc.data().degree });
 				this.setState({ duration: doc.data().duration });
-				this.setState({ major: doc.data().major });
 				this.setState({ university: doc.data().university });
 			});
 
@@ -328,6 +331,8 @@ export default class Resume extends React.Component {
 							<div className="header">
 								Applicant 1
 							</div>
+							<p> College: {this.state.college}</p>
+							<p> Major: {this.state.major}</p>
 							<div className="header">
 								Student Information
 							</div>
