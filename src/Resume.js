@@ -28,6 +28,7 @@ export default class Resume extends React.Component {
 			.collection("responseIDs")
 			.doc(this.props.qualtricsUserId);
 		this.RESUME_CONTENT = db.collection("resume");
+		this.APPLICANTS = db.collection("Applicants");
 
 		this.collapsibleOpened = this.collapsibleToggled.bind(this);
 	}
@@ -52,11 +53,8 @@ export default class Resume extends React.Component {
 		// Select gender
 		const isMan = Math.random() < 0.5;
 
-		// Select name randomly from list of male/female candidates
-		const nameIndex = Math.random() < 0.5 ? 0 : 1;
-		let name = isMan
-			? this.state.maleCandidates[nameIndex].name
-			: this.state.femaleCandidates[nameIndex].name;
+		let nameIndex = 0;
+		let name = this.state.maleCandidates[nameIndex].legal_name
 
 		// Select parenthood
 		const isParent = Math.random() < 0.5;
@@ -256,28 +254,18 @@ export default class Resume extends React.Component {
 	/** Fetches the candidate data (name and gender) from the database and stores it in state */
 	parseCandidateData(callbackFunc) {
 		const rawData = this.db.collection("candidates");
+		const applicantData = this.db.collection("Applicants");
 
 		const maleCandidates = [];
 		const femaleCandidates = [];
+		const applicants = [];
 
-		rawData
-			.where("isMan", "==", true)
+		applicantData
 			.get()
 			.then((querySnapshot) => {
 				querySnapshot.forEach((doc) => {
 					maleCandidates.push(doc.data());
 				});
-			})
-			.then(() => {
-				// After fetching male candidates, fetch female candidates
-				return rawData
-					.where("isMan", "==", false)
-					.get()
-					.then((querySnapshot) => {
-						querySnapshot.forEach((doc) => {
-							femaleCandidates.push(doc.data());
-						});
-					});
 			})
 			.then(() => {
 				// Set to state and call callback
@@ -341,15 +329,16 @@ export default class Resume extends React.Component {
 				<div className="App" onMouseMove={this._onMouseMove.bind(this)}>
 					<div className="resume">
 						<div>
-							<img
-								className="profile_image"
-								src={imageToURL(this.state.isMan ? "male_user" : "female_user")}
-								alt="the candidate"
-							/>
 							<div className="header">
-								{this.state.name ||
-									`Candidate ${this.state.resumeVersion === 1 ? "1" : "2"}`}
+								Applicant 1
 							</div>
+							<div className="header">
+								Student Information
+							</div>
+							<p>
+								Legal name: {this.state.name ||
+									`Candidate ${this.state.resumeVersion === 1 ? "1" : "2"}`}
+							</p>
 
 							<div className="votingblock_notes">
 								<VotingBlock
