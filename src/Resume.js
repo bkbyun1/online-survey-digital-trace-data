@@ -54,9 +54,8 @@ export default class Resume extends React.Component {
 		const isMan = Math.random() < 0.5;
 
 		let nameIndex = 0;
-		let name = this.state.applicants[nameIndex].legal_name;
-		let college = this.state.applicants[nameIndex].college;
-		let major = this.state.applicants[nameIndex].major;
+		let applicant = this.state.applicants[nameIndex];
+		let name = applicant.legal_name;
 
 		// Select parenthood
 		const isParent = Math.random() < 0.5;
@@ -77,10 +76,11 @@ export default class Resume extends React.Component {
 				education: education,
 				work1: work1,
 				work2: work2,
-				name: name,
 				nameIndex: nameIndex,
-				college: college,
-				major: major,
+				name: applicant.legal_name,
+				college: applicant.college,
+				major: applicant.major,
+				school_name: applicant.school_name,
 			},
 			// Now that info is in state, call the callback
 			callback
@@ -160,29 +160,6 @@ export default class Resume extends React.Component {
 
 	/** Once we've decided the values, actually display them (based on state) */
 	displayValues() {
-		// Initial phone screen notes
-		// this.RESUME_CONTENT.doc("notes from initial phone screen")
-		// 	.get()
-		// 	.then((doc) => {
-		// 		let parenthoodText = null;
-		// 		// Based on parent/nonparent
-		// 		if (this.state.isParent) {
-		// 			parenthoodText = doc.data().nonparent.toString();
-		// 		} else {
-		// 			parenthoodText = doc.data().parent.toString();
-		// 		}
-
-		// 		// Put the text into a nicer format
-		// 		let split = parenthoodText
-		// 			// Split each sentence into a bullet point
-		// 			.split(".")
-		// 			// Clean up whitespace
-		// 			.map((str) => str.trim())
-		// 			// Remove any empty strings (by removing falsy values)
-		// 			.filter(Boolean);
-		// 		this.setState({ bulletList: split });
-		// 	});
-
 		// Misc section
 		this.RESUME_CONTENT.doc("misc")
 			.get()
@@ -397,15 +374,11 @@ export default class Resume extends React.Component {
 									<Accordion.Collapse eventKey="0">
 										<Card.Body>
 											<div className="votingblock">
-												<VotingBlock
-													sectionName="education"
-													recordActivity={this.recordActivity}
-												/>
 												<div id="subtext">
-													{this.state.university}
-													<div id="subinfo">
+													Name: {this.state.school_name}
+													<p>
 														{this.state.degree}, {this.state.major}
-													</div>
+													</p>
 													<div id="subinfogray">{this.state.duration}</div>
 												</div>
 											</div>
