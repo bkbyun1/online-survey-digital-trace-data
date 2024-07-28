@@ -159,27 +159,27 @@ export default class Resume extends React.Component {
 	/** Once we've decided the values, actually display them (based on state) */
 	displayValues() {
 		// Initial phone screen notes
-		this.RESUME_CONTENT.doc("notes from initial phone screen")
-			.get()
-			.then((doc) => {
-				let parenthoodText = null;
-				// Based on parent/nonparent
-				if (this.state.isParent) {
-					parenthoodText = doc.data().nonparent.toString();
-				} else {
-					parenthoodText = doc.data().parent.toString();
-				}
+		// this.RESUME_CONTENT.doc("notes from initial phone screen")
+		// 	.get()
+		// 	.then((doc) => {
+		// 		let parenthoodText = null;
+		// 		// Based on parent/nonparent
+		// 		if (this.state.isParent) {
+		// 			parenthoodText = doc.data().nonparent.toString();
+		// 		} else {
+		// 			parenthoodText = doc.data().parent.toString();
+		// 		}
 
-				// Put the text into a nicer format
-				let split = parenthoodText
-					// Split each sentence into a bullet point
-					.split(".")
-					// Clean up whitespace
-					.map((str) => str.trim())
-					// Remove any empty strings (by removing falsy values)
-					.filter(Boolean);
-				this.setState({ bulletList: split });
-			});
+		// 		// Put the text into a nicer format
+		// 		let split = parenthoodText
+		// 			// Split each sentence into a bullet point
+		// 			.split(".")
+		// 			// Clean up whitespace
+		// 			.map((str) => str.trim())
+		// 			// Remove any empty strings (by removing falsy values)
+		// 			.filter(Boolean);
+		// 		this.setState({ bulletList: split });
+		// 	});
 
 		// Misc section
 		this.RESUME_CONTENT.doc("misc")
@@ -329,7 +329,6 @@ export default class Resume extends React.Component {
 		// If our data hasn't loaded yet, show a loading screen
 		if (
 			!(
-				this.state.bulletList &&
 				this.state.positionList.length > 0 &&
 				this.state.name
 			)
@@ -366,11 +365,6 @@ export default class Resume extends React.Component {
 												{this.replaceGenderOptions(this.state.remoteNotesText)}
 											</li>
 										)}
-										{this.state.bulletList.map((item, index) => {
-											return (
-												<li key={index}>{this.replaceGenderOptions(item)}</li>
-											);
-										})}
 									</ul>
 								</div>
 							</div>
