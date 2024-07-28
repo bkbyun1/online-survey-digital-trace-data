@@ -79,6 +79,7 @@ export default class Resume extends React.Component {
 				college: applicant.college,
 				major: applicant.major,
 				school_name: applicant.school_name,
+				state: applicant.state,
 			},
 			// Now that info is in state, call the callback
 			callback
@@ -372,11 +373,12 @@ export default class Resume extends React.Component {
 										<Card.Body>
 											<div className="votingblock">
 												<div id="subtext">
-													Name: {this.state.school_name}
 													<p>
-														{this.state.degree}, {this.state.major}
+														Name: {this.state.school_name}
 													</p>
-													<div id="subinfogray">{this.state.duration}</div>
+													<p>
+														State: {this.state.state}
+													</p>
 												</div>
 											</div>
 										</Card.Body>
