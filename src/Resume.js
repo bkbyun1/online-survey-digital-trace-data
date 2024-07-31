@@ -314,6 +314,7 @@ export default class Resume extends React.Component {
 							<p>
 								Legal name: {this.state.name}
 							</p>
+							<p></p>
 							<Accordion>
 								{/* Education Section */}
 								<Card>
