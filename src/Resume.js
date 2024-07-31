@@ -23,9 +23,9 @@ export default class Resume extends React.Component {
 		this.recordActivity = this.props.recordActivity;
 
 		const db = firebase.firestore();
-		this.db = db;
+		this.db = db; /*connects to firestore db, saves connection to this.db*/
 		this.USER_DATA = db
-			.collection("responseIDs")
+			.collection("responseIDs") /*BK: likely need to change this part, responseID is not unique identifier bc read several apps*/
 			.doc(this.props.qualtricsUserId);
 		this.RESUME_CONTENT = db.collection("resume");
 		this.APPLICANTS = db.collection("Applicants");
@@ -34,19 +34,46 @@ export default class Resume extends React.Component {
 	}
 
 	componentDidMount() {
-		this.setState({ studyVersion: this.props.studyVersion });
-		this.setState({ resumeVersion: this.props.resumeVersion }, () => {
+		this.setState({
+			studyVersion: this.props.studyVersion,
+			resumeVersion: this.props.resumeVersion,
+			permanentAddress: "13 Hope Avenue, Anytown, MI",
+			gender: "Male",
+			citizenshipStatus: "U.S. citizen or U.S. National",
+			hispanicStatus: "No",
+			racialIdentity: "White",
+			fathersEducation: "High school diploma",
+			mothersEducation: "Associate's degree",
+			/*secondarySchool: "Anytown High School",*/
+			unweightedGPA: 3.95,
+			weightedGPA: 4.34,
+			honorsAPClasses: 13,
+			courses: [
+				{ name: "Statistics", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
+				{ name: "AP English Literature", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
+				{ name: "AP Chemistry", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
+				{ name: "AP US History", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
+				{ name: "Spanish 6", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" }
+			  ],
+			  SAT: {
+				readingWriting: 690,
+				math: 780
+			  },
+			  AP: {
+				biology: 5,
+				englishLanguage: 4
+			  }
+		}, () => {
 			this.parseCandidateData(() => {
-				// On the first resume, we'll decide the data the user will see in the whole study
 				if (this.state.resumeVersion === 1) {
 					this.getResume1Values(this.displayValues);
 				} else {
-					// Show the appropriate resume data
-					// this.getResume2Values(this.displayValues);
+					this.getResume2Values(this.displayValues);
 				}
 			});
 		});
 	}
+
 
 	/** The first resume has randomly-decided values. Decide them and put into state. */
 	getResume1Values(callback) {
@@ -304,229 +331,279 @@ export default class Resume extends React.Component {
 					<div className="resume">
 						<div>
 							<div className="header">
-								Applicant 1
+								<span style={{ fontWeight: "bold" }}>Applicant #1</span>: <span>Engineering Undeclared</span>
 							</div>
-							<p> College: {this.state.college}</p>
-							<p> Major: {this.state.major}</p>
-							<div className="header">
-								Student Information
-							</div>
-							<p>
+							<div className="header" style={{ marginTop: '20px' }}>Student Information</div>
+							<p className="content" style={{ fontWeight: "bold" }}>Personal Information</p>
+							<p className="content">
 								Legal name: {this.state.name}
 							</p>
-							<p></p>
-							<Accordion>
-								{/* Education Section */}
-								<Card>
-									<Card.Header
-										style={{
-											background: "white",
-											paddingLeft: 0,
-											paddingRight: 0,
-										}}
-									>
-										<Accordion.Toggle
-											as={Button}
-											style={{
-												color: "black",
-												width: "100%",
-												display: "flex",
-												flexDirection: "row",
-												justifyContent: "space-between",
-												fontSize: "18px",
-												alignItems: "center",
-											}}
-											variant="link"
-											eventKey="0"
-											onClick={() =>
-												this.setState(
-													{
-														educationSectionOpened:
-															!this.state.educationSectionOpened,
-													},
-													() => {
-														this.collapsibleToggled(0);
-														if (this.state.educationSectionOpened) {
-															// Mark the other sections as closed
-															this.setState({
-																workSectionOpened: false,
-																miscSectionOpened: false,
-															});
-														}
-													}
-												)
-											}
-										>
-											Education{" "}
-											<img
-												id="toggle_icon"
-												src={
-													this.state.educationSectionOpened
-														? imageToURL("minus_icon")
-														: imageToURL("plus_icon")
-												}
-												alt="toggle icon"
-											/>
-										</Accordion.Toggle>
-									</Card.Header>
-
-									<Accordion.Collapse eventKey="0">
-										<Card.Body>
-											<div className="votingblock">
-												<div id="subtext">
-													<p>
-														Name: {this.state.school_name}
-													</p>
-													<p>
-														State: {this.state.state}
-													</p>
-												</div>
-											</div>
-										</Card.Body>
-									</Accordion.Collapse>
-								</Card>
-
-								{/* Work Section */}
-								<Card>
-									<Card.Header
-										style={{
-											background: "white",
-											paddingLeft: 0,
-											paddingRight: 0,
-											borderTop: "1px solid black",
-										}}
-									>
-										<Accordion.Toggle
-											as={Button}
-											style={{
-												color: "black",
-												width: "100%",
-												display: "flex",
-												flexDirection: "row",
-												justifyContent: "space-between",
-												fontSize: "18px",
-												alignItems: "center",
-											}}
-											variant="link"
-											eventKey="1"
-											onClick={() =>
-												this.setState(
-													{
-														workSectionOpened: !this.state.workSectionOpened,
-													},
-													() => {
-														this.collapsibleToggled(1);
-														if (this.state.workSectionOpened) {
-															this.setState({
-																// Mark the other sections as closed
-																educationSectionOpened: false,
-																miscSectionOpened: false,
-															});
-														}
-													}
-												)
-											}
-										>
-											Work Experience
-											<img
-												id="toggle_icon"
-												src={
-													this.state.workSectionOpened
-														? imageToURL("minus_icon")
-														: imageToURL("plus_icon")
-												}
-												alt="toggle icon"
-											/>
-										</Accordion.Toggle>
-									</Card.Header>
-
-									{/* Position List */}
-									<Accordion.Collapse eventKey="1">
-										<Card.Body>
-											<img src={imageToURL("tier1_app1")}></img>
-										</Card.Body>
-									</Accordion.Collapse>
-								</Card>
-
-								{/* Misc Section */}
-								<Card>
-									<Card.Header
-										style={{
-											background: "white",
-											paddingLeft: 0,
-											paddingRight: 0,
-											borderTop: "1px solid black",
-										}}
-									>
-										<Accordion.Toggle
-											as={Button}
-											style={{
-												color: "black",
-												width: "100%",
-												display: "flex",
-												flexDirection: "row",
-												justifyContent: "space-between",
-												fontSize: "18px",
-												alignItems: "center",
-											}}
-											variant="link"
-											eventKey="2"
-											onClick={() =>
-												this.setState(
-													{
-														miscSectionOpened: !this.state.miscSectionOpened,
-													},
-													() => {
-														this.collapsibleToggled(2);
-														if (this.state.miscSectionOpened) {
-															// Mark the other sections as closed
-															this.setState({
-																educationSectionOpened: false,
-																workSectionOpened: false,
-															});
-														}
-													}
-												)
-											}
-										>
-											Miscellaneous
-											<img
-												id="toggle_icon"
-												src={
-													this.state.miscSectionOpened
-														? imageToURL("minus_icon")
-														: imageToURL("plus_icon")
-												}
-												alt="toggle icon"
-											/>
-										</Accordion.Toggle>
-									</Card.Header>
-
-									<Accordion.Collapse eventKey="2">
-										<Card.Body>
-											<div className="votingblock">
-												<VotingBlock
-													sectionName="misc"
-													recordActivity={this.recordActivity}
-												/>
-												<div className="notes">
-													Other:
-													<ul>
-														{this.state.misc.map((item, index) => {
-															return (
-																<li key={index}>
-																	{this.replaceGenderOptions(item)}
-																</li>
-															);
-														})}
-													</ul>
-												</div>
-											</div>
-										</Card.Body>
-									</Accordion.Collapse>
-								</Card>
-							</Accordion>
+							<p className="content">Permanent home address: {this.state.permanentAddress}</p>
+							<p className="content" style={{ marginTop: '12px', marginBottom: '12px' }}></p> {/*to insert slight line*/}
+							<p className="content" style={{ fontWeight: "bold" }}>Demographics</p>
+							<p className="content">Gender: {this.state.gender}</p>
+							<p className="content">Citizenship status: {this.state.citizenshipStatus}</p>
+							<p className="content">Hispanic/Latino/a/x: {this.state.hispanicStatus}</p>
+							<p className="content">Racial identity: {this.state.racialIdentity}</p>
+							<p className="content" style={{ marginTop: '12px', marginBottom: '12px' }}></p>
+							<p className="content" style={{ fontWeight: "bold" }}>Family</p>
+							<p className="content">Father’s education: {this.state.fathersEducation}</p>
+							<p className="content">Mother’s education: {this.state.mothersEducation}</p>
 						</div>
+						<div className="section">
+						<div className="header" style={{ marginTop: '20px' }}>Education</div>
+						{/* confirm with Mike} <p className="content">Secondary/high school: {this.state.secondarySchool}</p> */}
+						</div>
+						<div className="section">
+							{/* confirm with Mike} <div className="content" style={{ marginTop: '12px', fontWeight: "bold" }}>Grades</div> */}
+							<div className="content" style={{ fontWeight: "bold" }}>Grades</div> 
+							<p className="content">Cumulative GPA: {this.state.weightedGPA} (weighted)</p>
+							{/* confirm with Mike}
+							<p className="content">Unweighted GPA: {this.state.unweightedGPA}</p>
+							<p className="content">Weighted GPA: {this.state.weightedGPA} (*calculated by adding .5 points for honors classes and 1 point for AP classes)</p>
+							<p className="content">Honors/AP classes: {this.state.honorsAPClasses}</p> */}
+						</div>
+						<div className="section">
+							<div className="content" style={{ marginTop: '12px', fontWeight: "bold" }}>Courses taken in current or most recent year</div>
+							<p className="content">Statistics, AP English Literature, AP Chemistry, AP US History, Spanish 6</p>
+							{/*
+							<p className="content">AP English Literature</p>
+							<p className="content">AP Chemistry</p>
+							<p className="content">AP US History</p>
+							<p className="content">Spanish 6</p>
+							*/}
+						</div>
+						<div className="section">
+							<div className="header" style={{ marginTop: '20px' }}>Testing</div>
+							<p className="content" style={{ fontWeight: "bold" }}>SAT</p>
+							<p className="content">Evidence-Based Reading and Writing: {this.state.SAT.readingWriting}</p>
+							<p className="content">Mathematics: {this.state.SAT.math}</p>
+							<p className="content" style={{ fontWeight: "bold" }}>AP</p>
+							<p className="content">Biology: {this.state.AP.biology}</p>
+							<p className="content">English Language: {this.state.AP.englishLanguage}</p>
+						</div>
+						<Accordion>
+							{/* High School Profile Section */}
+							<Card>
+								<Card.Header
+									style={{
+										background: "white",
+										paddingLeft: 0,
+										paddingRight: 0,
+									}}
+								>
+									<Accordion.Toggle
+										as={Button}
+										style={{
+											color: "black",
+											width: "100%",
+											display: "flex",
+											flexDirection: "row",
+											justifyContent: "space-between",
+											fontSize: "18px",
+											alignItems: "center",
+										}}
+										variant="link"
+										eventKey="0"
+										onClick={() =>
+											this.setState(
+												{
+													hsprofileSectionOpened:
+														!this.state.hsprofileSectionOpened,
+												},
+												() => {
+													this.collapsibleToggled(0);
+													if (this.state.hsprofileSectionOpened) {
+														// Mark the other sections as closed
+														this.setState({
+															transcriptSectionOpened: false,
+															activitiesSectionOpened: false,
+															essaySectionOpened: false,
+															miscSectionOpened: false,
+														});
+													}
+												}
+											)
+										}
+									>
+										High School Profile{" "}
+										<img
+											id="toggle_icon"
+											src={
+												this.state.hsprofileSectionOpened
+													? imageToURL("minus_icon")
+													: imageToURL("plus_icon")
+											}
+											alt="toggle icon"
+										/>
+									</Accordion.Toggle>
+								</Card.Header>
+
+    							<Accordion.Collapse eventKey="0" style={{ marginTop: 0 }}>
+									<Card.Body style={{ marginTop: 0, paddingTop: 0 }}>
+										<div className="votingblock">
+											<div id="subtext" style={{ marginTop: 0 }}>
+												<p className="header" style={{ marginTop: 0 }}>School Overview</p>
+												<p className="content">Name: {this.state.school_name}</p>
+												<p className="content">State: {this.state.state}</p>
+												<p className="content">Institutional control: Public</p>
+												<p className="content">Number of students: 318</p>
+												<p className="content">Graduation rate: 96%</p>
+												<p className="content">College enrollment: 31% at 4-year schools, 15% at 2-year schools</p>
+												<p className="content">Average ACT comp: 22</p>
+												<p className="content">Average SAT CR+M: 1050</p>
+												<p className="content">% free/reduced lunch: 67%</p>
+												<p className="content">% limited English prof.: 5%</p>
+												<p className="content"># AP courses offered: 5</p>
+												<p className="content">% who get 3+ on APs: 27%</p>
+												<p className="content" style={{ marginTop: '12px', marginBottom: '12px' }}></p> {/*to insert slight line*/}
+												<p className="header">School Profile</p>
+											</div>
+										</div>
+									</Card.Body>
+								</Accordion.Collapse>
+							</Card>
+
+							{/* Work Section */}
+							<Card>
+								<Card.Header
+									style={{
+										background: "white",
+										paddingLeft: 0,
+										paddingRight: 0,
+										borderTop: "1px solid black",
+									}}
+								>
+									<Accordion.Toggle
+										as={Button}
+										style={{
+											color: "black",
+											width: "100%",
+											display: "flex",
+											flexDirection: "row",
+											justifyContent: "space-between",
+											fontSize: "18px",
+											alignItems: "center",
+										}}
+										variant="link"
+										eventKey="1"
+										onClick={() =>
+											this.setState(
+												{
+													workSectionOpened: !this.state.workSectionOpened,
+												},
+												() => {
+													this.collapsibleToggled(1);
+													if (this.state.workSectionOpened) {
+														this.setState({
+															// Mark the other sections as closed
+															educationSectionOpened: false,
+															miscSectionOpened: false,
+														});
+													}
+												}
+											)
+										}
+									>
+										Work Experience
+										<img
+											id="toggle_icon"
+											src={
+												this.state.workSectionOpened
+													? imageToURL("minus_icon")
+													: imageToURL("plus_icon")
+											}
+											alt="toggle icon"
+										/>
+									</Accordion.Toggle>
+								</Card.Header>
+
+								{/* Position List */}
+								<Accordion.Collapse eventKey="1">
+									<Card.Body>
+										<img src={imageToURL("tier1_app1")}></img>
+									</Card.Body>
+								</Accordion.Collapse>
+							</Card>
+
+							{/* Misc Section */}
+							<Card>
+								<Card.Header
+									style={{
+										background: "white",
+										paddingLeft: 0,
+										paddingRight: 0,
+										borderTop: "1px solid black",
+									}}
+								>
+									<Accordion.Toggle
+										as={Button}
+										style={{
+											color: "black",
+											width: "100%",
+											display: "flex",
+											flexDirection: "row",
+											justifyContent: "space-between",
+											fontSize: "18px",
+											alignItems: "center",
+										}}
+										variant="link"
+										eventKey="2"
+										onClick={() =>
+											this.setState(
+												{
+													miscSectionOpened: !this.state.miscSectionOpened,
+												},
+												() => {
+													this.collapsibleToggled(2);
+													if (this.state.miscSectionOpened) {
+														// Mark the other sections as closed
+														this.setState({
+															educationSectionOpened: false,
+															workSectionOpened: false,
+														});
+													}
+												}
+											)
+										}
+									>
+										Miscellaneous
+										<img
+											id="toggle_icon"
+											src={
+												this.state.miscSectionOpened
+													? imageToURL("minus_icon")
+													: imageToURL("plus_icon")
+											}
+											alt="toggle icon"
+										/>
+									</Accordion.Toggle>
+								</Card.Header>
+
+								<Accordion.Collapse eventKey="2">
+									<Card.Body>
+										<div className="votingblock">
+											<VotingBlock
+												sectionName="misc"
+												recordActivity={this.recordActivity}
+											/>
+											<div className="notes">
+												Other:
+												<ul>
+													{this.state.misc.map((item, index) => {
+														return (
+															<li key={index}>
+																{this.replaceGenderOptions(item)}
+															</li>
+														);
+													})}
+												</ul>
+											</div>
+										</div>
+									</Card.Body>
+								</Accordion.Collapse>
+							</Card>
+						</Accordion>
 					</div>
 				</div>
 			</div>
