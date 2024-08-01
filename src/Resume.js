@@ -33,6 +33,7 @@ export default class Resume extends React.Component {
 		this.collapsibleOpened = this.collapsibleToggled.bind(this);
 	}
 
+
 	componentDidMount() {
 		this.setState({
 			studyVersion: this.props.studyVersion,
@@ -44,7 +45,7 @@ export default class Resume extends React.Component {
 			racialIdentity: "White",
 			fathersEducation: "High school diploma",
 			mothersEducation: "Associate's degree",
-			/*secondarySchool: "Anytown High School",*/
+			
 			unweightedGPA: 3.95,
 			weightedGPA: 4.34,
 			honorsAPClasses: 13,
@@ -81,7 +82,6 @@ export default class Resume extends React.Component {
 		const isMan = Math.random() < 0.5;
 
 		let applicant = this.state.applicants[this.state.studyVersion - 1];
-		let name = applicant.legal_name;
 
 		// Select parenthood
 		const isParent = Math.random() < 0.5;
@@ -95,6 +95,8 @@ export default class Resume extends React.Component {
 		const work2 = Math.random() < 0.5 ? "a" : "b";
 
 		// Store resume 1 values in state
+		/*BK: INSERT FIREBASE DATA HERE.*/
+		/* values on the right are being held in key on the left  */
 		this.setState(
 			{
 				isMan: isMan,
@@ -102,12 +104,14 @@ export default class Resume extends React.Component {
 				education: education,
 				work1: work1,
 				work2: work2,
-				name: applicant.legal_name,
-				college: applicant.college,
-				major: applicant.major,
-				school_name: applicant.school_name,
-				state: applicant.state,
-				graduation_rate: applicant.graduation_rate,
+				personal_address: applicant.a_personal_address, 
+				name: applicant.a_personal_legal_name,
+				citizenship: applicant.b_demographics_citizenship,
+				gender: applicant.b_demographics_gender,
+				hispanic: applicant.b_demographics_hispanic,
+				racial: applicant.b_demographics_racial,
+				fedu: applicant.c_family_fedu,
+				medu: applicant.c_family_medu,
 			},
 			// Now that info is in state, call the callback
 			callback
@@ -123,7 +127,6 @@ export default class Resume extends React.Component {
 			education: education,
 			work1: work1,
 			work2: work2,
-			name: name,
 		});
 	}
 
@@ -319,8 +322,7 @@ export default class Resume extends React.Component {
 		// If our data hasn't loaded yet, show a loading screen
 		if (
 			!(
-				this.state.positionList.length > 0 &&
-				this.state.name
+				this.state.positionList.length > 0
 			)
 		) {
 			return <h1>Loading...</h1>;
@@ -339,17 +341,17 @@ export default class Resume extends React.Component {
 							<p className="content">
 								Legal name: {this.state.name}
 							</p>
-							<p className="content">Permanent home address: {this.state.permanentAddress}</p>
+							<p className="content">Permanent home address: {this.state.personal_address}</p>
 							<p className="content" style={{ marginTop: '12px', marginBottom: '12px' }}></p> {/*to insert slight line*/}
 							<p className="content" style={{ fontWeight: "bold" }}>Demographics</p>
 							<p className="content">Gender: {this.state.gender}</p>
-							<p className="content">Citizenship status: {this.state.citizenshipStatus}</p>
-							<p className="content">Hispanic/Latino/a/x: {this.state.hispanicStatus}</p>
-							<p className="content">Racial identity: {this.state.racialIdentity}</p>
+							<p className="content">Citizenship status: {this.state.citizenship}</p>
+							<p className="content">Hispanic/Latino/a/x: {this.state.hispanic}</p>
+							<p className="content">Racial identity: {this.state.racial}</p>
 							<p className="content" style={{ marginTop: '12px', marginBottom: '12px' }}></p>
 							<p className="content" style={{ fontWeight: "bold" }}>Family</p>
-							<p className="content">Father’s education: {this.state.fathersEducation}</p>
-							<p className="content">Mother’s education: {this.state.mothersEducation}</p>
+							<p className="content">Father’s education: {this.state.fedu}</p>
+							<p className="content">Mother’s education: {this.state.medu}</p>
 						</div>
 						<div className="section">
 						<div className="header" style={{ marginTop: '20px' }}>Education</div>
