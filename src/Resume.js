@@ -107,6 +107,7 @@ export default class Resume extends React.Component {
 				major: applicant.major,
 				school_name: applicant.school_name,
 				state: applicant.state,
+				graduation_rate: applicant.graduation_rate,
 			},
 			// Now that info is in state, call the callback
 			callback
@@ -448,7 +449,7 @@ export default class Resume extends React.Component {
 												<p className="content">State: {this.state.state}</p>
 												<p className="content">Institutional control: Public</p>
 												<p className="content">Number of students: 318</p>
-												<p className="content">Graduation rate: 96%</p>
+												<p className="content">Graduation rate: {this.state.graduation_rate}</p>
 												<p className="content">College enrollment: 31% at 4-year schools, 15% at 2-year schools</p>
 												<p className="content">Average ACT comp: 22</p>
 												<p className="content">Average SAT CR+M: 1050</p>
