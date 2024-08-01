@@ -80,7 +80,7 @@ export default class Resume extends React.Component {
 		// Select gender
 		const isMan = Math.random() < 0.5;
 
-		let applicant = this.state.applicants[0];
+		let applicant = this.state.applicants[this.state.studyVersion - 1];
 		let name = applicant.legal_name;
 
 		// Select parenthood
