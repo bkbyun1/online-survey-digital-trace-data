@@ -95,7 +95,7 @@ export default class Resume extends React.Component {
 		const work2 = Math.random() < 0.5 ? "a" : "b";
 
 		// Store resume 1 values in state
-		/*BK: INSERT FIREBASE DATA HERE.*/
+		/*BK: INSERT FIREBASE DATA HERE. PART1*/
 		/* values on the right are being held in key on the left  */
 		this.setState(
 			{
@@ -112,6 +112,12 @@ export default class Resume extends React.Component {
 				racial: applicant.b_demographics_racial,
 				fedu: applicant.c_family_fedu,
 				medu: applicant.c_family_medu,
+				gpa: applicant.d_gpa, 
+				courses_taken: applicant.d_courses_taken,
+				sat_rw: applicant.e_sat_rw,
+				sat_math: applicant.e_sat_math,
+				ap_subject1: applicant.e_ap_subject1,
+				ap_subject2: applicant.e_ap_subject2,
 			},
 			// Now that info is in state, call the callback
 			callback
@@ -360,7 +366,7 @@ export default class Resume extends React.Component {
 						<div className="section">
 							{/* confirm with Mike} <div className="content" style={{ marginTop: '12px', fontWeight: "bold" }}>Grades</div> */}
 							<div className="content" style={{ fontWeight: "bold" }}>Grades</div> 
-							<p className="content">Cumulative GPA: {this.state.weightedGPA} (weighted)</p>
+							<p className="content">Cumulative GPA: {this.state.gpa}</p>
 							{/* confirm with Mike}
 							<p className="content">Unweighted GPA: {this.state.unweightedGPA}</p>
 							<p className="content">Weighted GPA: {this.state.weightedGPA} (*calculated by adding .5 points for honors classes and 1 point for AP classes)</p>
@@ -368,22 +374,17 @@ export default class Resume extends React.Component {
 						</div>
 						<div className="section">
 							<div className="content" style={{ marginTop: '12px', fontWeight: "bold" }}>Courses taken in current or most recent year</div>
-							<p className="content">Statistics, AP English Literature, AP Chemistry, AP US History, Spanish 6</p>
-							{/*
-							<p className="content">AP English Literature</p>
-							<p className="content">AP Chemistry</p>
-							<p className="content">AP US History</p>
-							<p className="content">Spanish 6</p>
-							*/}
+							<p className="content"> {this.state.courses_taken}</p>
+
 						</div>
 						<div className="section">
 							<div className="header" style={{ marginTop: '20px' }}>Testing</div>
 							<p className="content" style={{ fontWeight: "bold" }}>SAT</p>
-							<p className="content">Evidence-Based Reading and Writing: {this.state.SAT.readingWriting}</p>
-							<p className="content">Mathematics: {this.state.SAT.math}</p>
+							<p className="content">Evidence-Based Reading and Writing: {this.state.sat_rw}</p>
+							<p className="content">Mathematics: {this.state.sat_math}</p>
 							<p className="content" style={{ fontWeight: "bold" }}>AP</p>
-							<p className="content">Biology: {this.state.AP.biology}</p>
-							<p className="content">English Language: {this.state.AP.englishLanguage}</p>
+							<p className="content"> {this.state.ap_subject1}</p>
+							<p className="content"> {this.state.ap_subject2}</p>
 						</div>
 						<Accordion>
 							{/* High School Profile Section */}
@@ -467,7 +468,7 @@ export default class Resume extends React.Component {
 								</Accordion.Collapse>
 							</Card>
 
-							{/* Work Section */}
+							{/* Transcript Section */}
 							<Card>
 								<Card.Header
 									style={{
@@ -493,14 +494,16 @@ export default class Resume extends React.Component {
 										onClick={() =>
 											this.setState(
 												{
-													workSectionOpened: !this.state.workSectionOpened,
+													transcriptSectionOpened: !this.state.transcriptSectionOpened,
 												},
 												() => {
 													this.collapsibleToggled(1);
-													if (this.state.workSectionOpened) {
+													if (this.state.transcriptSectionOpened) {
 														this.setState({
 															// Mark the other sections as closed
-															educationSectionOpened: false,
+															hsprofileSectionOpened: false,
+															activitiesSectionOpened: false,
+															essaySectionOpened: false,
 															miscSectionOpened: false,
 														});
 													}
@@ -508,11 +511,11 @@ export default class Resume extends React.Component {
 											)
 										}
 									>
-										Work Experience
+										High School Transcript{" "}
 										<img
 											id="toggle_icon"
 											src={
-												this.state.workSectionOpened
+												this.state.transcriptSectionOpened
 													? imageToURL("minus_icon")
 													: imageToURL("plus_icon")
 											}
@@ -529,7 +532,7 @@ export default class Resume extends React.Component {
 								</Accordion.Collapse>
 							</Card>
 
-							{/* Misc Section */}
+							{/* Activities Section */}
 							<Card>
 								<Card.Header
 									style={{
@@ -555,26 +558,28 @@ export default class Resume extends React.Component {
 										onClick={() =>
 											this.setState(
 												{
-													miscSectionOpened: !this.state.miscSectionOpened,
+													activitiesSectionOpened: !this.state.activitiesSectionOpened,
 												},
 												() => {
 													this.collapsibleToggled(2);
-													if (this.state.miscSectionOpened) {
+													if (this.state.activitiesSectionOpened) {
 														// Mark the other sections as closed
 														this.setState({
-															educationSectionOpened: false,
-															workSectionOpened: false,
+															hsprofileSectionOpened: false,
+															transcriptSectionOpened: false,
+															essaySectionOpened: false,
+															miscSectionOpened: false,
 														});
 													}
 												}
 											)
 										}
 									>
-										Miscellaneous
+										Activities {" "}
 										<img
 											id="toggle_icon"
 											src={
-												this.state.miscSectionOpened
+												this.state.activitiesSectionOpened
 													? imageToURL("minus_icon")
 													: imageToURL("plus_icon")
 											}
@@ -589,7 +594,7 @@ export default class Resume extends React.Component {
 											<VotingBlock
 												sectionName="misc"
 												recordActivity={this.recordActivity}
-											/>
+											/> 
 											<div className="notes">
 												Other:
 												<ul>
