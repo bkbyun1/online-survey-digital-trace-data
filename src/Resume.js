@@ -590,6 +590,7 @@ export default class Resume extends React.Component {
 
 								<Accordion.Collapse eventKey="2">
 									<Card.Body>
+										{/*}
 										<div className="votingblock">
 											<VotingBlock
 												sectionName="misc"
@@ -607,7 +608,7 @@ export default class Resume extends React.Component {
 													})}
 												</ul>
 											</div>
-										</div>
+										</div> */}
 									</Card.Body>
 								</Accordion.Collapse>
 							</Card>
