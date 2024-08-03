@@ -29,9 +29,11 @@ export default class Resume extends React.Component {
 
 
 	componentDidMount() {
+		// applicantNumber used to be called studyVersion
+		// tierNumber used to be called resumeVersion
 		this.setState({
-			studyVersion: this.props.studyVersion,
-			resumeVersion: this.props.resumeVersion,
+			applicantNumber: this.props.applicantNumber,
+			tierNumber: this.props.tierNumber,
 			// courses: [
 			// 	{ name: "Statistics", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
 			// 	{ name: "AP English Literature", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
@@ -48,7 +50,7 @@ export default class Resume extends React.Component {
 
 	/** The first resume has randomly-decided values. Decide them and put into state. */
 	getResumeValues() {
-		let applicant = this.state.applicants[this.state.studyVersion - 1];
+		let applicant = this.state.applicants[this.state.applicantNumber - 1];
 		/*BK: INSERT FIREBASE DATA HERE. PART1*/
 		/* values on the right are being held in key on the left  */
 		this.setState(
@@ -138,10 +140,10 @@ export default class Resume extends React.Component {
 	}
 
 	render() {
-		let hsprofile_url = getApplicationComponentUrl("1_hsprofile", "profile_app" + this.state.studyVersion);
-		let transcript_url = getApplicationComponentUrl("2_transcripts", "transcript_t" + this.state.resumeVersion + "_app" + this.state.studyVersion);
-		let activities_url = getApplicationComponentUrl("3_activities", "activities_t" + this.state.resumeVersion + "_app" + this.state.studyVersion);
-		let essay_url = getApplicationComponentUrl("4_essay", "essay_app" + this.state.studyVersion);
+		let hsprofile_url = getApplicationComponentUrl("1_hsprofile", "profile_app" + this.state.applicantNumber);
+		let transcript_url = getApplicationComponentUrl("2_transcripts", "transcript_t" + this.state.tierNumber + "_app" + this.state.applicantNumber);
+		let activities_url = getApplicationComponentUrl("3_activities", "activities_t" + this.state.tierNumber + "_app" + this.state.applicantNumber);
+		let essay_url = getApplicationComponentUrl("4_essay", "essay_app" + this.state.applicantNumber);
 
 		// If our data hasn't loaded yet, show a loading screen
 		if (

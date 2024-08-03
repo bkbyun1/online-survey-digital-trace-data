@@ -8,9 +8,9 @@ import React, { useState } from "react";
 export default function LandingPage() {
 	const [iframes, setIframes] = useState([]);
 
-	const renderEmbeddedResume = (studyVersion, resumeVersion) => {
-		const iframeSrc = `/online-survey-digital-trace-data/#/${studyVersion}/${resumeVersion}/0sampleResponseIDstudy${studyVersion}`;
-		const iframeTitle = `${studyVersion}${resumeVersion}`;
+	const renderEmbeddedResume = (applicantNumber, tierNumber) => {
+		const iframeSrc = `/online-survey-digital-trace-data/#/${applicantNumber}/${tierNumber}/0sampleResponseIDstudy${applicantNumber}`;
+		const iframeTitle = `${applicantNumber}${tierNumber}`;
 
 		const newIframe = (
 			<iframe

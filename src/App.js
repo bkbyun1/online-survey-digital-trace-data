@@ -20,8 +20,8 @@ export default class App extends React.Component {
 
 		// This is hacky, but ReactRouter can't parse URL parameters unless inside a Route
 		const loc = document.location.hash;
-		this.studyVersion = parseInt(loc.split("/")[1]);
-		this.resumeVersion = parseInt(loc.split("/")[2]);
+		this.applicantNumber = parseInt(loc.split("/")[1]);
+		this.tierNumber = parseInt(loc.split("/")[2]);
 		this.qualtricsUserId = loc.split("/")[3];
 
 		// Print for debugging purposes within Qualtrics
@@ -39,7 +39,7 @@ export default class App extends React.Component {
 		if (!IS_DEMO_VERSION) {
 			this.DATABASE.collection("responseIDs")
 				.doc(this.qualtricsUserId)
-				.collection("activityData_resume" + this.resumeVersion.toString())
+				.collection("activityData_resume" + this.tierNumber.toString())
 				.doc(id)
 				.set({
 					category: category,
@@ -63,12 +63,12 @@ export default class App extends React.Component {
 			<div>
 				<HashRouter>
 					<Route
-						path="/:studyVersion/:resumeVersion/:qualtricsUserId"
+						path="/:applicantNumber/:tierNumber/:qualtricsUserId"
 						render={(props) => (
 							<Resume
 								{...props}
-								studyVersion={this.studyVersion}
-								resumeVersion={this.resumeVersion}
+								applicantNumber={this.applicantNumber}
+								tierNumber={this.tierNumber}
 								recordActivity={this.recordActivity}
 								qualtricsUserId={this.qualtricsUserId}
 							/>
