@@ -139,8 +139,8 @@ export default class Resume extends React.Component {
 
 	render() {
 		let hsprofile_url = getApplicationComponentUrl("1_hsprofile", "profile_app" + this.state.studyVersion);
-		let transcript_url = getApplicationComponentUrl("2_transcripts", "transcript_t1_app" + this.state.studyVersion);
-		let activities_url = getApplicationComponentUrl("3_activities", "activities_t1_app" + this.state.studyVersion);
+		let transcript_url = getApplicationComponentUrl("2_transcripts", "transcript_t" + this.state.resumeVersion + "_app" + this.state.studyVersion);
+		let activities_url = getApplicationComponentUrl("3_activities", "activities_t" + this.state.resumeVersion + "_app" + this.state.studyVersion);
 		let essay_url = getApplicationComponentUrl("4_essay", "essay_app" + this.state.studyVersion);
 
 		// If our data hasn't loaded yet, show a loading screen
