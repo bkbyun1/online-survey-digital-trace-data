@@ -138,7 +138,7 @@ export default class Resume extends React.Component {
 	}
 
 	render() {
-		
+		let transcript_url = getApplicationComponentUrl("2_transcripts", "transcript_t1_app" + this.state.studyVersion);
 
 		// If our data hasn't loaded yet, show a loading screen
 		if (
@@ -342,7 +342,7 @@ export default class Resume extends React.Component {
 								{/* Position List */}
 								<Accordion.Collapse eventKey="1">
 									<Card.Body>
-										<img src={imageToURL("tier1_app1")}></img>
+										<img src={transcript_url}></img>
 									</Card.Body>
 								</Accordion.Collapse>
 							</Card>
@@ -550,4 +550,8 @@ export default class Resume extends React.Component {
  */
 export function imageToURL(imageName) {
 	return `${process.env.PUBLIC_URL}/images/${imageName}.png`;
+}
+
+export function getApplicationComponentUrl(dir, imageName) {
+	return `${process.env.PUBLIC_URL}/application_components/${dir}/${imageName}.png`;
 }
