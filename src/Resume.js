@@ -138,7 +138,10 @@ export default class Resume extends React.Component {
 	}
 
 	render() {
+		let hsprofile_url = getApplicationComponentUrl("1_hsprofile", "profile_app" + this.state.studyVersion);
 		let transcript_url = getApplicationComponentUrl("2_transcripts", "transcript_t1_app" + this.state.studyVersion);
+		let activities_url = getApplicationComponentUrl("3_activities", "activities_t1_app" + this.state.studyVersion);
+		let essay_url = getApplicationComponentUrl("4_essay", "essay_app" + this.state.studyVersion);
 
 		// If our data hasn't loaded yet, show a loading screen
 		if (
@@ -259,26 +262,8 @@ export default class Resume extends React.Component {
 								</Card.Header>
 
     							<Accordion.Collapse eventKey="0" style={{ marginTop: 0 }}>
-									<Card.Body style={{ marginTop: 0, paddingTop: 0 }}>
-										<div className="votingblock">
-											<div id="subtext" style={{ marginTop: 0 }}>
-												<p className="header" style={{ marginTop: 0 }}>School Overview</p>
-												<p className="content">Name: {this.state.school_name}</p>
-												<p className="content">State: {this.state.state}</p>
-												<p className="content">Institutional control: Public</p>
-												<p className="content">Number of students: 318</p>
-												<p className="content">Graduation rate: {this.state.graduation_rate}</p>
-												<p className="content">College enrollment: 31% at 4-year schools, 15% at 2-year schools</p>
-												<p className="content">Average ACT comp: 22</p>
-												<p className="content">Average SAT CR+M: 1050</p>
-												<p className="content">% free/reduced lunch: 67%</p>
-												<p className="content">% limited English prof.: 5%</p>
-												<p className="content"># AP courses offered: 5</p>
-												<p className="content">% who get 3+ on APs: 27%</p>
-												<p className="content" style={{ marginTop: '12px', marginBottom: '12px' }}></p> {/*to insert slight line*/}
-												<p className="header">School Profile</p>
-											</div>
-										</div>
+									<Card.Body>
+										<img src={hsprofile_url} className="image_togglefit" alt="High School Profile"></img>
 									</Card.Body>
 								</Accordion.Collapse>
 							</Card>
@@ -405,7 +390,7 @@ export default class Resume extends React.Component {
 
 								<Accordion.Collapse eventKey="2">
 									<Card.Body>
-
+										<img src={activities_url} className="image_togglefit" alt="Transcript"></img>
 									</Card.Body>
 								</Accordion.Collapse>
 							</Card> 
@@ -469,7 +454,7 @@ export default class Resume extends React.Component {
 								{/* Position List */}
 								<Accordion.Collapse eventKey="3">
 									<Card.Body>
-										<p className="content">n/a</p> 
+										<img src={essay_url} className="image_togglefit" alt="Transcript"></img>
 									</Card.Body>
 								</Accordion.Collapse>
 							</Card>

@@ -270,6 +270,7 @@ ul {
 /* Styles for the toggle menu images */
 .image_togglefit {
 	max-width: 100%;
+	width: 100%;
 	height: auto;
 	object-fit: contain;
   } 
