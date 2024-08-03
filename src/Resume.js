@@ -5,7 +5,6 @@ import firebase from "./firebase";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import VotingBlock from "./VotingBlock";
 
 /*
   This is the main component for the resume page. It displays a resume with various sections that can be toggled open and closed.
@@ -24,11 +23,6 @@ export default class Resume extends React.Component {
 
 		const db = firebase.firestore();
 		this.db = db; /*connects to firestore db, saves connection to this.db*/
-		this.USER_DATA = db
-			.collection("responseIDs") /*BK: likely need to change this part, responseID is not unique identifier bc read several apps*/
-			.doc(this.props.qualtricsUserId);
-		this.RESUME_CONTENT = db.collection("resume");
-		this.APPLICANTS = db.collection("Applicants");
 
 		this.collapsibleOpened = this.collapsibleToggled.bind(this);
 	}
@@ -38,41 +32,22 @@ export default class Resume extends React.Component {
 		this.setState({
 			studyVersion: this.props.studyVersion,
 			resumeVersion: this.props.resumeVersion,
-			permanentAddress: "13 Hope Avenue, Anytown, MI",
-			gender: "Male",
-			citizenshipStatus: "U.S. citizen or U.S. National",
-			hispanicStatus: "No",
-			racialIdentity: "White",
-			fathersEducation: "High school diploma",
-			mothersEducation: "Associate's degree",
-			
-			unweightedGPA: 3.95,
-			weightedGPA: 4.34,
-			honorsAPClasses: 13,
-			courses: [
-				{ name: "Statistics", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
-				{ name: "AP English Literature", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
-				{ name: "AP Chemistry", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
-				{ name: "AP US History", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
-				{ name: "Spanish 6", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" }
-			  ],
-			  SAT: {
-				readingWriting: 690,
-				math: 780
-			  },
-			  AP: {
-				biology: 5,
-				englishLanguage: 4
-			  }
+			// courses: [
+			// 	{ name: "Statistics", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
+			// 	{ name: "AP English Literature", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
+			// 	{ name: "AP Chemistry", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
+			// 	{ name: "AP US History", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" },
+			// 	{ name: "Spanish 6", firstSemester: "Full year / first semester", secondSemester: "n/a", thirdTrimester: "n/a" }
+			//   ],
 		}, () => {
 			this.parseCandidateData(() => {
-				this.getResume1Values(this.displayValues);
+				this.getResumeValues();
 			});
 		});
 	}
 
 	/** The first resume has randomly-decided values. Decide them and put into state. */
-	getResume1Values(callback) {
+	getResumeValues() {
 		let applicant = this.state.applicants[this.state.studyVersion - 1];
 		/*BK: INSERT FIREBASE DATA HERE. PART1*/
 		/* values on the right are being held in key on the left  */
@@ -92,14 +67,8 @@ export default class Resume extends React.Component {
 				sat_math: applicant.e_sat_math,
 				ap_subject1: applicant.e_ap_subject1,
 				ap_subject2: applicant.e_ap_subject2,
-			},
-			// Now that info is in state, call the callback
-			callback
+			}
 		);
-	}
-
-	/** Once we've decided the values, actually display them (based on state) */
-	displayValues() {
 	}
 
 	/** Called when a section is toggled open/closed */
@@ -128,7 +97,7 @@ export default class Resume extends React.Component {
 		}
 	}
 
-	/** Fetches the candidate data (name and gender) from the database and stores it in state */
+	/** Fetches the candidate data from the database and stores it in state */
 	parseCandidateData(callbackFunc) {
 		const applicantData = this.db.collection("Applicants");
 
@@ -153,25 +122,6 @@ export default class Resume extends React.Component {
 			.catch((error) => {
 				console.error("Error getting candidates:", error);
 			});
-	}
-
-	/** Helper function: search through the text and replace option placeholders based on gender */
-	replaceGenderOptions(text) {
-		// We expect all options to be in the format [maleOption/femaleOption]
-		const matches = text.match(/\[(.*?)\/(.*?)\]/g);
-
-		if (!matches) {
-			return text;
-		}
-
-		matches.forEach((match) => {
-			// Slice off the brackets and split the options
-			const options = match.slice(1, -1).split("/");
-			// Replace the placeholder with the appropriate option
-			text = text.replace(match, this.state.isMan ? options[0] : options[1]);
-		});
-
-		return text;
 	}
 
 	/** Helper function: append a new position to the positionList */
@@ -452,25 +402,7 @@ export default class Resume extends React.Component {
 
 								<Accordion.Collapse eventKey="2">
 									<Card.Body>
-										{/*}
-										<div className="votingblock">
-											<VotingBlock
-												sectionName="misc"
-												recordActivity={this.recordActivity}
-											/> 
-											<div className="notes">
-												Other:
-												<ul>
-													{this.state.misc.map((item, index) => {
-														return (
-															<li key={index}>
-																{this.replaceGenderOptions(item)}
-															</li>
-														);
-													})}
-												</ul>
-											</div>
-										</div> */}
+
 									</Card.Body>
 								</Accordion.Collapse>
 							</Card> 
