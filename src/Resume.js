@@ -66,11 +66,7 @@ export default class Resume extends React.Component {
 			  }
 		}, () => {
 			this.parseCandidateData(() => {
-				if (this.state.resumeVersion === 1) {
-					this.getResume1Values(this.displayValues);
-				} else {
-					this.getResume2Values(this.displayValues);
-				}
+				this.getResume1Values(this.displayValues);
 			});
 		});
 	}
@@ -133,63 +129,6 @@ export default class Resume extends React.Component {
 			work1: work1,
 			work2: work2,
 		});
-	}
-
-	/** The second resume has the opposite values to the first. Calculate them and put into state. */
-	getResume2Values(callback) {
-		// Get the values shown to this user for resume 1
-		this.USER_DATA.collection("values shown")
-			.doc("resume 1")
-			.get()
-			.then((doc) => {
-				const resume1values = doc.data();
-				// Same gender
-				const isMan = resume1values.isMan;
-
-				// The other name
-				const nameIndex = resume1values.nameIndex === 0 ? 1 : 0;
-				const name = isMan
-					? this.state.maleCandidates[nameIndex].name
-					: this.state.femaleCandidates[nameIndex].name;
-
-				// Opposite parenthood
-				const isParent = !resume1values.isParent;
-
-				// Opposite education
-				// Could be more than two options in the future, which would need more logic
-				const education = resume1values.education === "a" ? "b" : "a";
-
-				// Opposite work history
-				// Could be more than two options in the future, which would need more logic
-				const work1 = resume1values.work1 === "a" ? "b" : "a";
-				const work2 = resume1values.work2 === "a" ? "b" : "a";
-
-				// Store resume 2 values in state
-				this.setState(
-					{
-						isMan: isMan,
-						isParent: isParent,
-						education: education,
-						work1: work1,
-						work2: work2,
-						name: name,
-						nameIndex: nameIndex,
-					},
-					// Now that info is in state, call the callback
-					callback
-				);
-
-				// Store resume 2 values in the database
-				this.USER_DATA.collection("values shown").doc("resume 2").set({
-					isMan: isMan,
-					isParent: isParent,
-					education: education,
-					work1: work1,
-					work2: work2,
-					name: name,
-					nameIndex: nameIndex,
-				});
-			});
 	}
 
 	/** Once we've decided the values, actually display them (based on state) */
