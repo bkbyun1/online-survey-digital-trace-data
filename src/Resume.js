@@ -51,6 +51,7 @@ export default class Resume extends React.Component {
 	/** The first resume has randomly-decided values. Decide them and put into state. */
 	getResumeValues() {
 		let applicant = this.state.applicants[this.state.applicantNumber - 1];
+		let tiers = this.state.tiers[convertToFirebaseNumber(this.state.tierNumber, this.state.applicantNumber)];
 		/*BK: INSERT FIREBASE DATA HERE. PART1*/
 		/* values on the right are being held in key on the left  */
 		this.setState(
@@ -63,7 +64,7 @@ export default class Resume extends React.Component {
 				racial: applicant.b_demographics_racial,
 				fedu: applicant.c_family_fedu,
 				medu: applicant.c_family_medu,
-				gpa: applicant.d_gpa, 
+				gpa: tiers.d_gpa, 
 				courses_taken: applicant.d_courses_taken,
 				sat_rw: applicant.e_sat_rw,
 				sat_math: applicant.e_sat_math,
@@ -103,9 +104,27 @@ export default class Resume extends React.Component {
 	/** Fetches the candidate data from the database and stores it in state */
 	parseCandidateData(callbackFunc) {
 		const applicantData = this.db.collection("Applicants");
-
+		const tierData = this.db.collection("Tiers");
 		const applicants = [];
+		const tiers = [];
 
+		tierData
+			.get()
+			.then((querySnapshot) => {
+				querySnapshot.forEach((doc) => {
+					tiers.push(doc.data());
+				});
+			})
+			.then(() => {
+				this.setState(
+					{
+						tiers: tiers,
+					}
+				);
+			})
+			.catch((error) => {
+				console.error("Error getting tiers: ", error);
+			})
 		applicantData
 			.get()
 			.then((querySnapshot) => {
@@ -123,7 +142,7 @@ export default class Resume extends React.Component {
 				);
 			})
 			.catch((error) => {
-				console.error("Error getting candidates:", error);
+				console.error("Error getting applicants:", error);
 			});
 	}
 
@@ -541,4 +560,8 @@ export function imageToURL(imageName) {
 
 export function getApplicationComponentUrl(dir, imageName) {
 	return `${process.env.PUBLIC_URL}/application_components/${dir}/${imageName}.png`;
+}
+
+export function convertToFirebaseNumber(tierNumber, applicantNumber) {
+	return (tierNumber - 1) * 4 + (applicantNumber - 1); 
 }
