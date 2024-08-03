@@ -65,7 +65,7 @@ export default class Resume extends React.Component {
 				fedu: applicant.c_family_fedu,
 				medu: applicant.c_family_medu,
 				gpa: tiers.d_gpa, 
-				courses_taken: parseList(applicant.d_courses_taken),
+				courses_taken: parseList(tiers.d_courses_taken),
 				sat_rw: applicant.e_sat_rw,
 				sat_math: applicant.e_sat_math,
 				ap_subject1: applicant.e_ap_subject1,
