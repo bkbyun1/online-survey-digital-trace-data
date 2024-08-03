@@ -342,7 +342,7 @@ export default class Resume extends React.Component {
 								{/* Position List */}
 								<Accordion.Collapse eventKey="1">
 									<Card.Body>
-										<img src={transcript_url}></img>
+										<img src={transcript_url} className="image_togglefit" alt="Transcript"></img>
 									</Card.Body>
 								</Accordion.Collapse>
 							</Card>

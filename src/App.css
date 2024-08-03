@@ -266,3 +266,10 @@ ul {
 	height: 100%;
 	top: auto;
 }
+
+/* Styles for the toggle menu images */
+.image_togglefit {
+	max-width: 100%;
+	height: auto;
+	object-fit: contain;
+  } 
