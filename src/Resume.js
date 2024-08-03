@@ -65,7 +65,7 @@ export default class Resume extends React.Component {
 				fedu: applicant.c_family_fedu,
 				medu: applicant.c_family_medu,
 				gpa: tiers.d_gpa, 
-				courses_taken: applicant.d_courses_taken,
+				courses_taken: parseList(applicant.d_courses_taken),
 				sat_rw: applicant.e_sat_rw,
 				sat_math: applicant.e_sat_math,
 				ap_subject1: applicant.e_ap_subject1,
@@ -213,8 +213,20 @@ export default class Resume extends React.Component {
 						</div>
 						<div className="section">
 							<div className="content" style={{ marginTop: '12px', fontWeight: "bold" }}>Courses taken in current or most recent year</div>
-							<p className="content"> {this.state.courses_taken}</p>
-
+							<table>
+								<thead>
+									<tr>
+										<th>Heading</th><th>Heading 2</th><th>Heading 3</th>
+									</tr>
+								</thead>
+								<tbody>
+									{this.state.courses_taken.map((course) => (
+										<tr>
+											<td key={course}>{course}</td><td>Data</td><td>Data</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
 						</div>
 						<div className="section">
 							<div className="header" style={{ marginTop: '20px' }}>Testing</div>
@@ -568,4 +580,8 @@ export function getApplicationComponentUrl(dir, imageName) {
 
 export function convertToFirebaseNumber(tierNumber, applicantNumber) {
 	return (tierNumber - 1) * 4 + (applicantNumber - 1); 
+}
+
+export function parseList(commaSeparatedString) {
+	return commaSeparatedString.split(", ");
 }
