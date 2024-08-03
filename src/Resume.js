@@ -75,7 +75,6 @@ export default class Resume extends React.Component {
 		});
 	}
 
-
 	/** The first resume has randomly-decided values. Decide them and put into state. */
 	getResume1Values(callback) {
 		// Select gender
@@ -672,7 +671,7 @@ export default class Resume extends React.Component {
 								{/* Position List */}
 								<Accordion.Collapse eventKey="3">
 									<Card.Body>
-										<p className="content">n/a</p>
+										<p className="content">n/a</p> 
 									</Card.Body>
 								</Accordion.Collapse>
 							</Card>
