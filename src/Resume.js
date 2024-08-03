@@ -73,32 +73,11 @@ export default class Resume extends React.Component {
 
 	/** The first resume has randomly-decided values. Decide them and put into state. */
 	getResume1Values(callback) {
-		// Select gender
-		const isMan = Math.random() < 0.5;
-
 		let applicant = this.state.applicants[this.state.studyVersion - 1];
-
-		// Select parenthood
-		const isParent = Math.random() < 0.5;
-
-		// Select education
-		// Could be more than two options in the future
-		const education = Math.random() < 0.5 ? "a" : "b";
-
-		// Could be more than two options in the future
-		const work1 = Math.random() < 0.5 ? "a" : "b";
-		const work2 = Math.random() < 0.5 ? "a" : "b";
-
-		// Store resume 1 values in state
 		/*BK: INSERT FIREBASE DATA HERE. PART1*/
 		/* values on the right are being held in key on the left  */
 		this.setState(
 			{
-				isMan: isMan,
-				isParent: isParent,
-				education: education,
-				work1: work1,
-				work2: work2,
 				personal_address: applicant.a_personal_address, 
 				name: applicant.a_personal_legal_name,
 				citizenship: applicant.b_demographics_citizenship,
@@ -117,18 +96,6 @@ export default class Resume extends React.Component {
 			// Now that info is in state, call the callback
 			callback
 		);
-
-		// Create document for this user
-		this.USER_DATA.set({});
-
-		// Store resume 1 values in the database
-		this.USER_DATA.collection("values shown").doc("resume 1").set({
-			isMan: isMan,
-			isParent: isParent,
-			education: education,
-			work1: work1,
-			work2: work2,
-		});
 	}
 
 	/** Once we've decided the values, actually display them (based on state) */
