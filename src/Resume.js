@@ -72,6 +72,7 @@ export default class Resume extends React.Component {
 	}
 
 	/** Called when a section is toggled open/closed */
+	// TODO(bkbyun): Change these values.
 	collapsibleToggled(eventKey) {
 		if (eventKey === 0) {
 			// Education Section
@@ -137,6 +138,8 @@ export default class Resume extends React.Component {
 	}
 
 	render() {
+		
+
 		// If our data hasn't loaded yet, show a loading screen
 		if (
 			!(
