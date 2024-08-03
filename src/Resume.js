@@ -219,8 +219,12 @@ export default class Resume extends React.Component {
 						<div className="section">
 							<div className="header" style={{ marginTop: '20px' }}>Testing</div>
 							<p className="content" style={{ fontWeight: "bold" }}>SAT</p>
-							<p className="content">Evidence-Based Reading and Writing: {this.state.sat_rw}</p>
-							<p className="content">Mathematics: {this.state.sat_math}</p>
+							{(this.state.sat_rw || this.state.sat_math) ?
+							<div>
+								<p className="content">Evidence-Based Reading and Writing: {this.state.sat_rw}</p>
+								<p className="content">Mathematics: {this.state.sat_math}</p>
+							</div> :
+							<p className="content">Not Submitted</p>}
 							<p className="content" style={{ fontWeight: "bold" }}>AP</p>
 							<p className="content"> {this.state.ap_subject1}</p>
 							<p className="content"> {this.state.ap_subject2}</p>
