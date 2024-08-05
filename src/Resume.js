@@ -106,7 +106,7 @@ export default class Resume extends React.Component {
 				"essay",
 				"toggled essay section"
 			);
-			
+
 		} else if (eventKey === 4) {
 			// misc Section
 			this.recordActivity(
@@ -233,13 +233,13 @@ export default class Resume extends React.Component {
 							<table>
 								<thead>
 									<tr>
-										<th>Heading</th><th>Heading 2</th><th>Heading 3</th>
+										<th className="content" style={{ fontWeight: "bold" }}>Full year/first semester/first trimester</th><th className="content" style={{ fontWeight: "bold" }}>Second semester/second trimester</th><th className="content" style={{ fontWeight: "bold" }} >Third trimester</th>
 									</tr>
 								</thead>
 								<tbody>
 									{this.state.courses_taken.map((course) => (
 										<tr>
-											<td key={course}>{course}</td><td>Data</td><td>Data</td>
+											<td className="courses_taken_style underline" key={course}>{course}</td><td>Data</td><td>Data</td>
 										</tr>
 									))}
 								</tbody>
