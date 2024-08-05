@@ -66,10 +66,10 @@ export default class Resume extends React.Component {
 				medu: applicant.c_family_medu,
 				gpa: tiers.d_gpa, 
 				courses_taken: parseList(tiers.d_courses_taken),
-				sat_rw: applicant.e_sat_rw,
-				sat_math: applicant.e_sat_math,
-				ap_subject1: applicant.e_ap_subject1,
-				ap_subject2: applicant.e_ap_subject2,
+				sat_rw: tiers.e_sat_rw,
+				sat_math: tiers.e_sat_math,
+				ap_subject1: tiers.e_ap_subject1,
+				ap_subject2: tiers.e_ap_subject2,
 			}
 		);
 	}
@@ -78,25 +78,41 @@ export default class Resume extends React.Component {
 	// TODO(bkbyun): Change these values.
 	collapsibleToggled(eventKey) {
 		if (eventKey === 0) {
-			// Education Section
+			// hsprofile Section
 			this.recordActivity(
 				"collapsibleToggled",
-				"education",
-				"toggled education section "
+				"hsprofile",
+				"toggled hsprofile section "
 			);
 		} else if (eventKey === 1) {
-			// Work Section
+			// transcript Section
 			this.recordActivity(
 				"collapsibleToggled",
-				"work",
-				"toggled work section "
+				"transcript",
+				"toggled transcript section "
 			);
 		} else if (eventKey === 2) {
-			// Misc Section
+			// activities Section
+			this.recordActivity(
+				"collapsibleToggled",
+				"activities",
+				"toggled activities section "
+			);
+
+		} else if (eventKey === 3) {
+			// essay Section
+			this.recordActivity(
+				"collapsibleToggled",
+				"essay",
+				"toggled essay section"
+			);
+			
+		} else if (eventKey === 4) {
+			// misc Section
 			this.recordActivity(
 				"collapsibleToggled",
 				"misc",
-				"toggled misc section "
+				"toggled misc section"
 			);
 		}
 	}
@@ -158,6 +174,7 @@ export default class Resume extends React.Component {
 		// this.recordActivity("mouse", `(${e.clientX},${e.clientY})`, "moved mouse");
 	}
 
+	/** https://pdf2png.com/ */
 	render() {
 		let hsprofile_url = getApplicationComponentUrl("1_hsprofile", "profile_app" + this.state.applicantNumber);
 		let transcript_url = getApplicationComponentUrl("2_transcripts", "transcript_t" + this.state.tierNumber + "_app" + this.state.applicantNumber);
