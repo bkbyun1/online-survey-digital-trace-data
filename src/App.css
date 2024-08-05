@@ -281,10 +281,44 @@ ul {
     margin: 5px 0;
     padding: 0;
     font-weight: normal;
+	position: relative;
 } 
 
-.underline {
+/* .underline {
     border-bottom: 1px solid black;
-	width: 35%;
+	width: 30%;
 	margin: 0 auto;
+} */
+
+.underline::after {
+    content: '';
+    display: block;
+    width: 40%; /* Adjust width to make the underline shorter */
+    border-bottom: 1px solid black;
 }
+
+table.course-table {
+    border-collapse: separate; /* Ensure the border-spacing is applied */
+    width: 100%; /* Ensure the table takes the full width */
+}
+
+table.course-table th, table.course-table td {
+    padding: 0 25px 0 5px; /* Add horizontal padding to table headers and cells */
+	width: 33.33%;
+}
+
+table.course-table th + th, table.course-table td + td {
+    padding-left: 30px; /* Add padding to the left of the second column */
+}
+
+.hsprofile-picture {
+    width: 100%; /* Adjust the width as needed */
+    max-width: 1200px; /* Set a maximum width */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: 0 auto; 
+} 
+
+
+
+

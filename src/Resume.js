@@ -230,16 +230,20 @@ export default class Resume extends React.Component {
 						</div>
 						<div className="section">
 							<div className="content" style={{ marginTop: '12px', fontWeight: "bold" }}>Courses taken in current or most recent year</div>
-							<table>
+							<table className="course-table">
 								<thead>
 									<tr>
-										<th className="content" style={{ fontWeight: "bold" }}>Full year/first semester/first trimester</th><th className="content" style={{ fontWeight: "bold" }}>Second semester/second trimester</th><th className="content" style={{ fontWeight: "bold" }} >Third trimester</th>
+										{/* <th className="content" >Full year/first sem/first trim</th>
+										<th className="content" >Second sem/second trim</th>
+										<th className="content"  >Third trim</th> */}
 									</tr>
 								</thead>
 								<tbody>
 									{this.state.courses_taken.map((course) => (
 										<tr>
-											<td className="courses_taken_style underline" key={course}>{course}</td><td>Data</td><td>Data</td>
+											<td className="courses_taken_style underline" key={course}>{course}</td>
+											{/* <td className="courses_taken_style underline"></td>
+											<td className="courses_taken_style underline"></td> */}
 										</tr>
 									))}
 								</tbody>
@@ -317,8 +321,9 @@ export default class Resume extends React.Component {
 
     							<Accordion.Collapse eventKey="0" style={{ marginTop: 0 }}>
 									<Card.Body>
-										<img src={hsprofile_url} className="image_togglefit" alt="High School Profile"></img>
-									</Card.Body>
+										{/* <img src={hsprofile_url} className="image_togglefit" alt="High School Profile"></img> */}
+										<img src={hsprofile_url} className="hsprofile-picture" alt="High School Profile"></img>
+									</Card.Body> 
 								</Accordion.Collapse>
 							</Card>
 
