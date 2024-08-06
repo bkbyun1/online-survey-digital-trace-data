@@ -232,18 +232,11 @@ export default class Resume extends React.Component {
 							<div className="content" style={{ marginTop: '12px', fontWeight: "bold" }}>Courses taken in current or most recent year</div>
 							<table className="course-table">
 								<thead>
-									<tr>
-										{/* <th className="content" >Full year/first sem/first trim</th>
-										<th className="content" >Second sem/second trim</th>
-										<th className="content"  >Third trim</th> */}
-									</tr>
 								</thead>
 								<tbody>
 									{this.state.courses_taken.map((course) => (
-										<tr>
-											<td className="courses_taken_style underline" key={course}>{course}</td>
-											{/* <td className="courses_taken_style underline"></td>
-											<td className="courses_taken_style underline"></td> */}
+										<tr key={course}>
+											<td className="courses_taken_style underline">{course}</td>
 										</tr>
 									))}
 								</tbody>
