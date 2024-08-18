@@ -5,6 +5,7 @@ import firebase from "./firebase";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import moment from "moment-timezone";
 
 /*
   This is the main component for the resume page. It displays a resume with various sections that can be toggled open and closed.
@@ -77,9 +78,34 @@ export default class Resume extends React.Component {
 		);
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		// Record amount of time spent on active section
+		if (prevState.activeSection && prevState.activeSection !== this.state.activeSection) {
+			const currTime = moment().tz("America/Los_Angeles")
+
+			this.recordActivity(
+				"collapsibleTime",
+				prevState.activeSection,
+				currTime.diff(prevState.activeStartTime, 'milliseconds') + " msec spent on " + prevState.activeSection + " section"
+			);
+		}
+	}
+
 	/** Called when a section is toggled open/closed */
 	// TODO(bkbyun): Change these values.
 	collapsibleToggled(eventKey) {
+		if (this.state[eventKey + "SectionOpened"]) {  // if clicked on the section to open, start tracking time spent
+			this.setState({
+				activeSection: eventKey,
+				activeStartTime: moment().tz("America/Los_Angeles")
+			});
+		} else {  // if clicked on the section to close, clear active section
+			this.setState({
+				activeSection: undefined,
+				activeStartTime: undefined
+			})
+		}
+
 		this.recordActivity(
 			"collapsibleToggled",
 			eventKey,
