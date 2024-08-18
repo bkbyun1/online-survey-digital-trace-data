@@ -81,10 +81,11 @@ class Admin extends React.Component {
 
 				// Get activity content for each user
 				const activityPromises = userIDs.map((user) => {
-					return Promise.all([
-						this.getActivityContent(user, 1),
-						this.getActivityContent(user, 2),
-					]);
+					return Promise.all(
+						[...Array(4).keys()].map(x => ++x).map((appNum) => {
+							return this.getActivityContent(user.split('_tier')[0], user.split('_tier')[1], appNum)
+						})
+					)
 				});
 
 				// Wait for all promises to resolve
@@ -130,18 +131,19 @@ class Admin extends React.Component {
 	}
 
 	/** Get the activity of a user on a specific resume */
-	getActivityContent(responseID, resumeNum) {
+	getActivityContent(responseID, tierNum, appNum) {
 		// Get the reference to the resume
 		const resumeRef = this.DATABASE.collection("responseIDs")
-			.doc(responseID)
-			.collection(`activityData_resume${resumeNum}`);
+			.doc(`${responseID}_tier${tierNum}`)
+			.collection(`app${appNum}`);
 
 		// Get the content of the resume
 		return resumeRef.get().then((querySnapshot) => {
 			querySnapshot.forEach((doc) => {
 				this.activityContent.push({
 					responseID: responseID,
-					resumeNum: resumeNum,
+					tierNum: tierNum,
+					appNum: appNum,
 					activityID: doc.id,
 					...doc.data(),
 				});

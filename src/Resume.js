@@ -46,6 +46,9 @@ export default class Resume extends React.Component {
 				this.getResumeValues();
 			});
 		});
+
+		// Make sure document exists
+		this.db.collection('responseIDs').doc(this.props.qualtricsUserId + '_tier' + this.props.tierNumber).set({});
 	}
 
 	/** The first resume has randomly-decided values. Decide them and put into state. */

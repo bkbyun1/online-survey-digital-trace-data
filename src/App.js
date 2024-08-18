@@ -30,6 +30,8 @@ export default class App extends React.Component {
 
 	/** Record the data (in Firebase, and print to console) */
 	async recordActivity(category, value, description) {
+		if (this.qualtricsUserId === undefined) return;
+
 		// This will be the ID of the activity in Firebase -- a string, padded to 5 digits so alphabetical sorting works
 		const id = this.activityCounter.toString().padStart(5, "0");
 		this.activityCounter = this.activityCounter + 1;
@@ -38,8 +40,8 @@ export default class App extends React.Component {
 
 		if (!IS_DEMO_VERSION) {
 			this.DATABASE.collection("responseIDs")
-				.doc(this.qualtricsUserId)
-				.collection("activityData_resume" + this.tierNumber.toString())
+				.doc(this.qualtricsUserId + "_tier" + this.tierNumber.toString())
+				.collection("app" + this.applicantNumber.toString())
 				.doc(id)
 				.set({
 					category: category,
@@ -55,7 +57,14 @@ export default class App extends React.Component {
 	}
 
 	componentDidMount() {
-		this.recordActivity("loading", "accessed", "App mounted");
+		// Update activityCounter to ensure previously recorded activity data are not overwritten
+		this.DATABASE.collection('responseIDs')
+			.doc(this.qualtricsUserId + '_tier' + this.tierNumber.toString())
+			.collection('app' + this.applicantNumber.toString()).get()
+			.then((querySnapshot) => {
+				this.activityCounter = querySnapshot.size + 1
+				this.recordActivity("loading", "accessed", "App mounted");
+			});
 	}
 
 	render() {
