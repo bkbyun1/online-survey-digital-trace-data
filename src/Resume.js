@@ -50,6 +50,35 @@ export default class Resume extends React.Component {
 
 		// Make sure document exists
 		this.db.collection('responseIDs').doc(this.props.qualtricsUserId + '_tier' + this.props.tierNumber).set({});
+
+		// Track app start time
+		this.setState({
+			appStartTime: moment().tz("America/Los_Angeles")
+		});
+
+		// Try tracking when page is refreshed or navigated away
+		window.addEventListener('beforeunload', (event) => {
+			const currTime = moment().tz("America/Los_Angeles")
+
+			// If a section is still opened, record its active time
+			if (this.state.activeSection) {
+				this.recordActivity(
+					"collapsibleTime",
+					this.state.activeSection,
+					currTime.diff(this.state.activeStartTime, 'milliseconds') + " msec spent on " + this.state.activeSection + " section"
+				);
+			}
+
+			// Record total time spent on app
+			this.recordActivity(
+				"appTime",
+				"accessed",
+				currTime.diff(this.state.appStartTime, 'milliseconds') + " msec spent on app"
+			);
+
+			// Record click activity
+			this.recordActivity("unloading", "accessed", "App unmounted");
+		});
 	}
 
 	/** The first resume has randomly-decided values. Decide them and put into state. */
