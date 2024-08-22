@@ -53,12 +53,12 @@ export default class Resume extends React.Component {
 
 		// Track app start time
 		this.setState({
-			appStartTime: moment().tz("America/Los_Angeles")
+			appStartTime: moment().tz("America/New_York")
 		});
 
 		// Try tracking when page is refreshed or navigated away
 		window.addEventListener('beforeunload', (event) => {
-			const currTime = moment().tz("America/Los_Angeles")
+			const currTime = moment().tz("America/New_York")
 
 			// If a section is still opened, record its active time
 			if (this.state.activeSection) {
@@ -110,7 +110,7 @@ export default class Resume extends React.Component {
 	componentDidUpdate(prevProps, prevState) {
 		// Record amount of time spent on active section
 		if (prevState.activeSection && prevState.activeSection !== this.state.activeSection) {
-			const currTime = moment().tz("America/Los_Angeles")
+			const currTime = moment().tz("America/New_York")
 
 			this.recordActivity(
 				"collapsibleTime",
@@ -126,7 +126,7 @@ export default class Resume extends React.Component {
 		if (this.state[eventKey + "SectionOpened"]) {  // if clicked on the section to open, start tracking time spent
 			this.setState({
 				activeSection: eventKey,
-				activeStartTime: moment().tz("America/Los_Angeles")
+				activeStartTime: moment().tz("America/New_York")
 			});
 		} else {  // if clicked on the section to close, clear active section
 			this.setState({
