@@ -317,7 +317,6 @@ export default class Resume extends React.Component {
 															transcriptSectionOpened: false,
 															activitiesSectionOpened: false,
 															essaySectionOpened: false,
-															miscSectionOpened: false,
 														});
 													}
 												}
@@ -381,7 +380,6 @@ export default class Resume extends React.Component {
 															hsprofileSectionOpened: false,
 															activitiesSectionOpened: false,
 															essaySectionOpened: false,
-															miscSectionOpened: false,
 														});
 													}
 												}
@@ -445,7 +443,6 @@ export default class Resume extends React.Component {
 															hsprofileSectionOpened: false,
 															transcriptSectionOpened: false,
 															essaySectionOpened: false,
-															miscSectionOpened: false,
 														});
 													}
 												}
@@ -508,7 +505,6 @@ export default class Resume extends React.Component {
 															hsprofileSectionOpened: false,
 															transcriptSectionOpened: false,
 															activitiesSectionOpened: false,
-															miscSectionOpened: false,
 														});
 													}
 												}
@@ -532,70 +528,6 @@ export default class Resume extends React.Component {
 								<Accordion.Collapse eventKey="3">
 									<Card.Body>
 										<img src={essay_url} className="image_togglefit" alt="Transcript"></img>
-									</Card.Body>
-								</Accordion.Collapse>
-							</Card>
-
-							{/* Miscellaneous Section */}
-							<Card>
-								<Card.Header
-									style={{
-										background: "white",
-										paddingLeft: 0,
-										paddingRight: 0,
-										borderTop: "1px solid black",
-									}}
-								>
-									<Accordion.Toggle
-										as={Button}
-										style={{
-											color: "black",
-											width: "100%",
-											display: "flex",
-											flexDirection: "row",
-											justifyContent: "space-between",
-											fontSize: "18px",
-											alignItems: "center",
-										}}
-										variant="link"
-										eventKey="4"
-										onClick={() =>
-											this.setState(
-												{
-													miscSectionOpened: !this.state.miscSectionOpened,
-												},
-												() => {
-													this.collapsibleToggled("misc"); /*bkcheck*/
-													if (this.state.miscSectionOpened) {
-														this.setState({
-															// Mark the other sections as closed
-															hsprofileSectionOpened: false,
-															transcriptSectionOpened: false,
-															activitiesSectionOpened: false,
-															essaySectionOpened: false,
-														});
-													}
-												}
-											)
-										}
-									>
-										Miscellaneous{" "}
-										<img
-											id="toggle_icon"
-											src={
-												this.state.miscSectionOpened
-													? imageToURL("minus_icon")
-													: imageToURL("plus_icon")
-											}
-											alt="toggle icon"
-										/>
-									</Accordion.Toggle>
-								</Card.Header>
-
-								{/* Position List */}
-								<Accordion.Collapse eventKey="4">
-									<Card.Body>
-										<p className="content">n/a</p>
 									</Card.Body>
 								</Accordion.Collapse>
 							</Card>
