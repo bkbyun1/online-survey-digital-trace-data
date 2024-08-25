@@ -49,7 +49,9 @@ export default class Resume extends React.Component {
 		});
 
 		// Make sure document exists
-		this.db.collection('responseIDs').doc(this.props.qualtricsUserId + '_tier' + this.props.tierNumber).set({});
+		if (!this.props.qualtricsUserId.startsWith('${e:')) {
+			this.db.collection('responseIDs').doc(this.props.qualtricsUserId + '_tier' + this.props.tierNumber).set({});
+		}
 
 		// Track app start time
 		this.setState({
