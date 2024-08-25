@@ -58,18 +58,26 @@ export default class Resume extends React.Component {
 			appStartTime: moment().tz("America/New_York")
 		});
 
-		// Try tracking when page is refreshed or navigated away
-		window.addEventListener('beforeunload', (event) => {
-			const currTime = moment().tz("America/New_York")
+		// Collapse any opened section when app is out of focus
+		window.addEventListener('blur', (event) => {
+			event.preventDefault();
+			console.log('blur...');
 
-			// If a section is still opened, record its active time
 			if (this.state.activeSection) {
-				this.recordActivity(
-					"collapsibleTime",
-					this.state.activeSection,
-					currTime.diff(this.state.activeStartTime, 'milliseconds') + " msec spent on " + this.state.activeSection + " section"
-				);
+				this[this.state.activeSection].click()
+				this.setState({
+					activeSection: undefined,
+					activeStartTime: undefined
+				})
 			}
+		});
+
+		// Try tracking total time when page is navigated away
+		window.addEventListener('pagehide', (event) => {
+			event.preventDefault();
+			console.log('pagehide...');
+
+			const currTime = moment().tz("America/New_York")
 
 			// Record total time spent on app
 			this.recordActivity(
@@ -124,7 +132,7 @@ export default class Resume extends React.Component {
 
 	/** Called when a section is toggled open/closed */
 	// TODO(bkbyun): Change these values.
-	collapsibleToggled(eventKey) {
+	collapsibleToggled(eventKey, event) {
 		if (this.state[eventKey + "SectionOpened"]) {  // if clicked on the section to open, start tracking time spent
 			this.setState({
 				activeSection: eventKey,
@@ -140,7 +148,7 @@ export default class Resume extends React.Component {
 		this.recordActivity(
 			"collapsibleToggled",
 			eventKey,
-			(this.state[eventKey + "SectionOpened"] ? "opened" : "closed") + " " + eventKey + " section"
+			(this.state[eventKey + "SectionOpened"] ? "opened" : "closed") + " " + eventKey + " section" + (event.isTrusted ? "" : " (auto)")
 		);
 	}
 
@@ -305,14 +313,15 @@ export default class Resume extends React.Component {
 										}}
 										variant="link"
 										eventKey="0"
-										onClick={() =>
+										ref={i => this.hsprofile = i}
+										onClick={(event) =>
 											this.setState(
 												{
 													hsprofileSectionOpened:
 														!this.state.hsprofileSectionOpened,
 												},
 												() => {
-													this.collapsibleToggled("hsprofile");
+													this.collapsibleToggled("hsprofile", event);
 													if (this.state.hsprofileSectionOpened) {
 														// Mark the other sections as closed
 														this.setState({
@@ -369,13 +378,14 @@ export default class Resume extends React.Component {
 										}}
 										variant="link"
 										eventKey="1"
-										onClick={() =>
+										ref={i => this.transcript = i}
+										onClick={(event) =>
 											this.setState(
 												{
 													transcriptSectionOpened: !this.state.transcriptSectionOpened,
 												},
 												() => {
-													this.collapsibleToggled("transcript");
+													this.collapsibleToggled("transcript", event);
 													if (this.state.transcriptSectionOpened) {
 														this.setState({
 															// Mark the other sections as closed
@@ -432,13 +442,14 @@ export default class Resume extends React.Component {
 										}}
 										variant="link"
 										eventKey="2"
-										onClick={() =>
+										ref={i => this.activities = i}
+										onClick={(event) =>
 											this.setState(
 												{
 													activitiesSectionOpened: !this.state.activitiesSectionOpened,
 												},
 												() => {
-													this.collapsibleToggled("activities");
+													this.collapsibleToggled("activities", event);
 													if (this.state.activitiesSectionOpened) {
 														// Mark the other sections as closed
 														this.setState({
@@ -494,13 +505,14 @@ export default class Resume extends React.Component {
 										}}
 										variant="link"
 										eventKey="3"
-										onClick={() =>
+										ref={i => this.essay = i}
+										onClick={(event) =>
 											this.setState(
 												{
 													essaySectionOpened: !this.state.essaySectionOpened,
 												},
 												() => {
-													this.collapsibleToggled("essay"); /*bkcheck*/
+													this.collapsibleToggled("essay", event); /*bkcheck*/
 													if (this.state.essaySectionOpened) {
 														this.setState({
 															// Mark the other sections as closed
