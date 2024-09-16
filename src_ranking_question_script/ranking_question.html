@@ -1,0 +1,43 @@
+<script>
+  // Insert CSS styles into the document head
+  const css = `
+    .header {
+      font-size: 20px;
+      padding-bottom: 0;
+      padding-top: 0;
+      margin: 5px 0;
+      color: #3584c7;
+      font-weight: bold;
+    }
+  `;
+
+  const style = document.createElement('style');
+  style.type = 'text/css';
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+  document.head.appendChild(style);
+
+  // JavaScript function to show the selected applicant in the iframe
+  function showApplicant(url, event) {
+    event.preventDefault(); // Prevent the default link behavior (which would navigate away)
+    var iframe = document.getElementById('applicantFrame');
+    iframe.src = url; // Set the iframe's src to the selected applicant's URL
+  }
+</script>
+
+<!-- Heading for the section -->
+<div class="header">Applications (note: order may differ from original sequence)</div>
+
+<!-- Applicant links -->
+<p><a href="#" onclick="showApplicant('https://bkbyun1.github.io/online-survey-digital-trace-data#/1/2/review', event)">Liam Walsh</a></p>
+<p><a href="#" onclick="showApplicant('https://bkbyun1.github.io/online-survey-digital-trace-data#/2/2/review', event)">Donghyun Kim</a></p>
+<p><a href="#" onclick="showApplicant('https://bkbyun1.github.io/online-survey-digital-trace-data#/3/2/review', event)">Yufei Zhang</a></p>
+<p><a href="#" onclick="showApplicant('https://bkbyun1.github.io/online-survey-digital-trace-data#/4/2/review', event)">Cody Miller</a></p>
+
+<!-- Iframe for displaying the selected applicant -->
+<iframe id="applicantFrame" width="1000px" height="1000px"></iframe>
+
+
