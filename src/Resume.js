@@ -231,7 +231,7 @@ export default class Resume extends React.Component {
 					<div className="resume">
 						<div>
 							<div className="header">
-								<span style={{ fontWeight: "bold" }}>Applicant #{this.state.applicantNumber}</span>: <span>Engineering Undeclared</span>
+								<span style={{ fontWeight: "bold" }}>Applicant #</span>: <span>Engineering Undeclared</span>
 							</div>
 							<div className="header" style={{ marginTop: '20px' }}>Student Information</div>
 							<p className="content" style={{ fontWeight: "bold" }}>Personal Information</p>
