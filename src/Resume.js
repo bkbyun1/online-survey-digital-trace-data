@@ -231,20 +231,19 @@ export default class Resume extends React.Component {
 					<div className="resume">
 						<div>
 							<div className="header">
-								<span style={{ fontWeight: "bold" }}>Applicant #</span>: <span>Engineering Undeclared</span>
+								<span style={{ fontWeight: "bold" }}>(Applying as Engineering Undeclared)</span>
 							</div>
 							<div className="header" style={{ marginTop: '20px' }}>Student Information</div>
 							<p className="content" style={{ fontWeight: "bold" }}>Personal Information</p>
 							<p className="content">
 								Legal name: {this.state.name}
 							</p>
-							<p className="content">Permanent home address: {this.state.personal_address}</p>
 							<p className="content" style={{ marginTop: '12px', marginBottom: '12px' }}></p> {/*to insert slight line*/}
 							<p className="content" style={{ fontWeight: "bold" }}>Demographics</p>
 							<p className="content">Gender: {this.state.gender}</p>
 							<p className="content">Citizenship status: {this.state.citizenship}</p>
 							<p className="content">Hispanic/Latino/a/x: {this.state.hispanic}</p>
-							<p className="content">Racial identity: {this.state.racial}</p>
+							<p className="content">Race: {this.state.racial}</p>
 							<p className="content" style={{ marginTop: '12px', marginBottom: '12px' }}></p>
 							<p className="content" style={{ fontWeight: "bold" }}>Family</p>
 							<p className="content">Father’s education: {this.state.fedu}</p>
