@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/online-survey-digital-trace-data/static/css/main.1887b4cf.chunk.css",
-    "main.js": "/online-survey-digital-trace-data/static/js/main.cde2f5a6.chunk.js",
-    "main.js.map": "/online-survey-digital-trace-data/static/js/main.cde2f5a6.chunk.js.map",
+    "main.js": "/online-survey-digital-trace-data/static/js/main.34f9da04.chunk.js",
+    "main.js.map": "/online-survey-digital-trace-data/static/js/main.34f9da04.chunk.js.map",
     "runtime-main.js": "/online-survey-digital-trace-data/static/js/runtime-main.0af84758.js",
     "runtime-main.js.map": "/online-survey-digital-trace-data/static/js/runtime-main.0af84758.js.map",
     "static/css/2.4c34b247.chunk.css": "/online-survey-digital-trace-data/static/css/2.4c34b247.chunk.css",
@@ -18,6 +18,6 @@
     "static/css/2.4c34b247.chunk.css",
     "static/js/2.29aa8f95.chunk.js",
     "static/css/main.1887b4cf.chunk.css",
-    "static/js/main.cde2f5a6.chunk.js"
+    "static/js/main.34f9da04.chunk.js"
   ]
 }
