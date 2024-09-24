@@ -83,7 +83,7 @@ export default class Resume extends React.Component {
 			this.recordActivity(
 				"appTime",
 				"accessed",
-				currTime.diff(this.state.appStartTime, 'milliseconds') + " msec spent on app"
+				currTime.diff(this.state.appStartTime, 'milliseconds') + " msec on app"
 			);
 
 			// Record click activity
@@ -125,7 +125,7 @@ export default class Resume extends React.Component {
 			this.recordActivity(
 				"collapsibleTime",
 				prevState.activeSection,
-				currTime.diff(prevState.activeStartTime, 'milliseconds') + " msec spent on " + prevState.activeSection + " section"
+				currTime.diff(prevState.activeStartTime, 'milliseconds') + " msec " + prevState.activeSection
 			);
 		}
 	}
