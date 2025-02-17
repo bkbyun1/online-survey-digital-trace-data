@@ -22,7 +22,7 @@ export default function LandingPage() {
 			></iframe>
 		);
 		setIframes([...iframes, newIframe]);
-	};
+	}; 
 
 	return (
 		<div className="LandingPage container">
