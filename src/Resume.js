@@ -564,7 +564,7 @@ export function getApplicationComponentUrl(dir, imageName) {
 }
 
 export function convertToFirebaseNumber(tierNumber, applicantNumber) {
-	return (tierNumber - 1) * 4 + (applicantNumber - 1); 
+	return (tierNumber - 1) * 8 + (applicantNumber - 1); 
 }
 
 export function parseList(commaSeparatedString) {
