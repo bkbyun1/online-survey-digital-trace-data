@@ -82,7 +82,7 @@ class Admin extends React.Component {
 				// Get activity content for each user
 				const activityPromises = userIDs.map((user) => {
 					return Promise.all(
-						[...Array(4).keys()].map(x => ++x).map((appNum) => {
+						[...Array(8).keys()].map(x => ++x).map((appNum) => {
 							return this.getActivityContent(user.split('_tier')[0], user.split('_tier')[1], appNum)
 						})
 					)
