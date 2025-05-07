@@ -80,24 +80,33 @@ class Admin extends React.Component {
 					});
 
 				// Get activity content for each user
-				const activityPromises = userIDs.map((user) => {
-					return Promise.all(
-						[...Array(8).keys()].map(x => ++x).map((appNum) => {
-							return this.getActivityContent(user.split('_tier')[0], user.split('_tier')[1], appNum)
-						})
-					)
+				// Phase 1: Apps 1 to 4
+				const batch1Promises = userIDs.map((user) => {
+					return Promise.all([1, 2, 3, 4].map((appNum) => {
+					return this.getActivityContent(user.split('_tier')[0], user.split('_tier')[1], appNum);
+					}));
 				});
-
-				// Wait for all promises to resolve
-				Promise.all(activityPromises)
+				
+				// Wait for the first batch to finish before continuing
+				Promise.all(batch1Promises)
 					.then(() => {
-						// Create a CSV from the activity content
-						this.setState({
-							activitiesCSVurl: this.createCSV(this.activityContent),
-						});
+					// Phase 2: Apps 5 to 8
+					const batch2Promises = userIDs.map((user) => {
+						return Promise.all([5, 6, 7, 8].map((appNum) => {
+						return this.getActivityContent(user.split('_tier')[0], user.split('_tier')[1], appNum);
+						}));
+					});
+				
+					return Promise.all(batch2Promises);
+					})
+					.then(() => {
+					// After both batches finish, build the CSV
+					this.setState({
+						activitiesCSVurl: this.createCSV(this.activityContent),
+					});
 					})
 					.catch((error) => {
-						console.error("Error fetching activity:", error);
+					console.error("Error fetching activity in phased batches:", error);
 					});
 			});
 		}
