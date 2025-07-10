@@ -289,7 +289,7 @@ export default class Resume extends React.Component {
 							<p className="content"> {this.state.ap_subject1}</p>
 							<p className="content"> {this.state.ap_subject2}</p>
 						</div>
-						<Accordion>
+						<Accordion alwaysOpen>
 							{/* High School Profile Section */}
 							<Card>
 								<Card.Header
@@ -313,25 +313,25 @@ export default class Resume extends React.Component {
 										variant="link"
 										eventKey="0"
 										ref={i => this.hsprofile = i}
-										onClick={(event) =>
-											this.setState(
-												{
-													hsprofileSectionOpened:
-														!this.state.hsprofileSectionOpened,
-												},
-												() => {
-													this.collapsibleToggled("hsprofile", event);
-													if (this.state.hsprofileSectionOpened) {
-														// Mark the other sections as closed
-														this.setState({
-															transcriptSectionOpened: false,
-															activitiesSectionOpened: false,
-															essaySectionOpened: false,
-														});
-													}
-												}
-											)
-										}
+										// onClick={(event) =>
+										// 	this.setState(
+										// 		{
+										// 			hsprofileSectionOpened:
+										// 				!this.state.hsprofileSectionOpened,
+										// 		},
+										// 		() => {
+										// 			this.collapsibleToggled("hsprofile", event);
+										// 			// if (this.state.hsprofileSectionOpened) {
+										// 			// 	// Mark the other sections as closed
+										// 			// 	this.setState({
+										// 			// 		transcriptSectionOpened: false,
+										// 			// 		activitiesSectionOpened: false,
+										// 			// 		essaySectionOpened: false,
+										// 			// 	});
+										// 			// }
+										// 		}
+										// 	)
+										// }
 									>
 										High School Profile{" "}
 										<img
@@ -378,24 +378,24 @@ export default class Resume extends React.Component {
 										variant="link"
 										eventKey="1"
 										ref={i => this.transcript = i}
-										onClick={(event) =>
-											this.setState(
-												{
-													transcriptSectionOpened: !this.state.transcriptSectionOpened,
-												},
-												() => {
-													this.collapsibleToggled("transcript", event);
-													if (this.state.transcriptSectionOpened) {
-														this.setState({
-															// Mark the other sections as closed
-															hsprofileSectionOpened: false,
-															activitiesSectionOpened: false,
-															essaySectionOpened: false,
-														});
-													}
-												}
-											)
-										}
+										// onClick={(event) =>
+										// 	this.setState(
+										// 		{
+										// 			transcriptSectionOpened: !this.state.transcriptSectionOpened,
+										// 		},
+										// 		() => {
+										// 			this.collapsibleToggled("transcript", event);
+										// 			// if (this.state.transcriptSectionOpened) {
+										// 			// 	this.setState({
+										// 			// 		// Mark the other sections as closed
+										// 			// 		hsprofileSectionOpened: false,
+										// 			// 		activitiesSectionOpened: false,
+										// 			// 		essaySectionOpened: false,
+										// 			// 	});
+										// 			// }
+										// 		}
+										// 	)
+										// }
 									>
 										Transcript{" "}
 										<img
@@ -442,24 +442,24 @@ export default class Resume extends React.Component {
 										variant="link"
 										eventKey="2"
 										ref={i => this.activities = i}
-										onClick={(event) =>
-											this.setState(
-												{
-													activitiesSectionOpened: !this.state.activitiesSectionOpened,
-												},
-												() => {
-													this.collapsibleToggled("activities", event);
-													if (this.state.activitiesSectionOpened) {
-														// Mark the other sections as closed
-														this.setState({
-															hsprofileSectionOpened: false,
-															transcriptSectionOpened: false,
-															essaySectionOpened: false,
-														});
-													}
-												}
-											)
-										}
+										// onClick={(event) =>
+										// 	this.setState(
+										// 		{
+										// 			activitiesSectionOpened: !this.state.activitiesSectionOpened,
+										// 		},
+										// 		() => {
+										// 			this.collapsibleToggled("activities", event);
+										// 			// if (this.state.activitiesSectionOpened) {
+										// 			// 	// Mark the other sections as closed
+										// 			// 	this.setState({
+										// 			// 		hsprofileSectionOpened: false,
+										// 			// 		transcriptSectionOpened: false,
+										// 			// 		essaySectionOpened: false,
+										// 			// 	});
+										// 			// }
+										// 		}
+										// 	)
+										// }
 									>
 										Activities {" "}
 										<img
@@ -481,7 +481,7 @@ export default class Resume extends React.Component {
 								</Accordion.Collapse>
 							</Card> 
 
-							{/* Personal Essay Section */}
+							{/* Personal Essay Section
 							<Card>
 								<Card.Header
 									style={{
@@ -511,7 +511,7 @@ export default class Resume extends React.Component {
 													essaySectionOpened: !this.state.essaySectionOpened,
 												},
 												() => {
-													this.collapsibleToggled("essay", event); /*bkcheck*/
+													this.collapsibleToggled("essay", event); 
 													if (this.state.essaySectionOpened) {
 														this.setState({
 															// Mark the other sections as closed
@@ -537,13 +537,12 @@ export default class Resume extends React.Component {
 									</Accordion.Toggle>
 								</Card.Header>
 
-								{/* Position List */}
 								<Accordion.Collapse eventKey="3">
 									<Card.Body>
 										<img src={essay_url} className="image_togglefit" alt="Transcript"></img>
 									</Card.Body>
 								</Accordion.Collapse>
-							</Card>
+							</Card> */}
 						</Accordion>
 					</div>
 				</div>
@@ -563,8 +562,13 @@ export function getApplicationComponentUrl(dir, imageName) {
 	return `${process.env.PUBLIC_URL}/application_components/${dir}/${imageName}.png`;
 }
 
+// export function convertToFirebaseNumber(tierNumber, applicantNumber) {
+// 	return (tierNumber - 1) * 8 + (applicantNumber - 1); 
+// }
+
+/**BK commented off above and added below 0709, to add interview mock app #9***/
 export function convertToFirebaseNumber(tierNumber, applicantNumber) {
-	return (tierNumber - 1) * 8 + (applicantNumber - 1); 
+	return (tierNumber - 1) * 9 + (applicantNumber - 1); 
 }
 
 export function parseList(commaSeparatedString) {
