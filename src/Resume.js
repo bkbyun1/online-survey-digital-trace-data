@@ -566,10 +566,10 @@ export function convertToFirebaseNumber(tierNumber, applicantNumber) {
 	return (tierNumber - 1) * 8 + (applicantNumber - 1); 
 }
 
-/**BK commented off above and added below 0709, to add interview mock app #9***/
+// /**BK commented off above and added below 0709, to add interview mock app #9***/
 // export function convertToFirebaseNumber(tierNumber, applicantNumber) {
 // 	return (tierNumber - 1) * 9 + (applicantNumber - 1); 
-// //}
+// }
 
 export function parseList(commaSeparatedString) {
 	return commaSeparatedString.split(", ");
