@@ -442,24 +442,24 @@ export default class Resume extends React.Component {
 										variant="link"
 										eventKey="2"
 										ref={i => this.activities = i}
-										// onClick={(event) =>
-										// 	this.setState(
-										// 		{
-										// 			activitiesSectionOpened: !this.state.activitiesSectionOpened,
-										// 		},
-										// 		() => {
-										// 			this.collapsibleToggled("activities", event);
-										// 			// if (this.state.activitiesSectionOpened) {
-										// 			// 	// Mark the other sections as closed
-										// 			// 	this.setState({
-										// 			// 		hsprofileSectionOpened: false,
-										// 			// 		transcriptSectionOpened: false,
-										// 			// 		essaySectionOpened: false,
-										// 			// 	});
-										// 			// }
-										// 		}
-										// 	)
-										// }
+										onClick={(event) =>
+											this.setState(
+												{
+													activitiesSectionOpened: !this.state.activitiesSectionOpened,
+												},
+												() => {
+													this.collapsibleToggled("activities", event);
+													// if (this.state.activitiesSectionOpened) {
+													// 	// Mark the other sections as closed
+													// 	this.setState({
+													// 		hsprofileSectionOpened: false,
+													// 		transcriptSectionOpened: false,
+													// 		essaySectionOpened: false,
+													// 	});
+													// }
+												}
+											)
+										}
 									>
 										Activities {" "}
 										<img
@@ -481,7 +481,7 @@ export default class Resume extends React.Component {
 								</Accordion.Collapse>
 							</Card> 
 
-							{/* Personal Essay Section
+							{/*Personal Essay Section*/}
 							<Card>
 								<Card.Header
 									style={{
@@ -542,7 +542,7 @@ export default class Resume extends React.Component {
 										<img src={essay_url} className="image_togglefit" alt="Transcript"></img>
 									</Card.Body>
 								</Accordion.Collapse>
-							</Card> */}
+							</Card>
 						</Accordion>
 					</div>
 				</div>
