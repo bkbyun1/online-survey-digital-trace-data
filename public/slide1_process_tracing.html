@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#e8e8e8;
+  display:flex; align-items:center; justify-content:center;
+  min-height:100vh; padding:24px;
+  font-family:-apple-system,'system-ui','Segoe UI',sans-serif;
+}
+.slide {
+  width:960px; height:540px; background:#fff;
+  display:flex; flex-direction:column; position:relative; overflow:hidden;
+  box-shadow:0 4px 24px rgba(0,0,0,0.18);
+}
+
+/* HEADER */
+.slide-header {
+  background:#fff; padding:14px 36px 10px; flex-shrink:0;
+  border-bottom:1px solid #e8e8e8;
+}
+.slide-header h1 {
+  color:#0C1A3A; font-size:20px; font-weight:700;
+  font-family:-apple-system,'system-ui','Segoe UI',sans-serif;
+}
+
+/* BODY */
+.body { flex:1; display:flex; padding:12px 36px 56px; overflow:hidden; }
+
+/* ── LEFT: single unified scroll container ── */
+.left-col {
+  width:315px; flex-shrink:0;
+  border:1.5px solid #b0b8c4; border-radius:4px;
+  overflow:hidden; background:#fff;
+  box-shadow:0 1px 6px rgba(0,0,0,0.07);
+  display:flex; flex-direction:column;
+}
+
+/* ONE scrollable div — content + accordion together */
+.app-inner {
+  overflow-y:auto; flex:1;
+  font-family:-apple-system,'system-ui','Segoe UI',sans-serif;
+}
+.app-inner::-webkit-scrollbar { width:4px; }
+.app-inner::-webkit-scrollbar-thumb { background:#ccc; }
+
+.app-content { padding:12px 18px 0; }
+.app-major    { color:#3584C7; font-size:10px; font-weight:700; margin-bottom:6px; }
+.app-sec-head { color:#3584C7; font-size:10px; font-weight:700; margin:8px 0 3px; }
+.app-bold     { font-size:8.5px; font-weight:700; color:#212529; margin-bottom:1px; }
+.app-line     { font-size:8px; color:#212529; line-height:1.65; }
+.app-spacer   { height:5px; }
+.course-table { border-collapse:collapse; margin-top:2px; }
+.course-table td {
+  font-size:8px; color:#212529; padding:1px 0;
+  border-bottom:1px solid #bbb; min-width:140px;
+}
+
+/* accordion block — padded, inside same scroll */
+.acc-outer { padding:8px 10px 12px; }
+.acc-sections { border:1.5px solid #b0b8c4; border-radius:3px; overflow:hidden; }
+.acc-row { border-bottom:1px solid #d0d5dc; }
+.acc-row:last-child { border-bottom:none; }
+
+.acc-trigger {
+  width:100%; background:#fff; border:none;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:9px 11px; cursor:pointer; font-size:11px;
+  color:#212529; font-family:-apple-system,'system-ui','Segoe UI',sans-serif;
+  text-align:left;
+}
+.acc-trigger:hover { background:#f5f7fa; }
+
+.acc-icon {
+  width:18px; height:18px; border:1.5px solid #999; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:#666; flex-shrink:0; line-height:1;
+}
+.acc-icon.active { border-color:#3584C7; color:#3584C7; }
+
+.acc-body {
+  max-height:0; overflow:hidden;
+  transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+.acc-body.open { max-height:600px; }
+.acc-body-inner { padding:8px 12px; border-top:1px solid #e8e8e8; }
+
+.hs-school-name { font-size:9px; font-weight:700; text-align:center; margin-bottom:6px; color:#212529; }
+.hs-section { color:#3584C7; font-size:8.5px; font-weight:700; margin:5px 0 3px; }
+.hs-table { width:100%; border-collapse:collapse; border:1px solid #aaa; margin-bottom:4px; }
+.hs-table td { font-size:7.5px; color:#212529; padding:2px 5px; border:1px solid #d0d0d0; }
+.hs-table td:first-child { width:62%; }
+.hs-subhead { font-size:7.5px; font-weight:700; text-decoration:underline; color:#212529; margin-bottom:2px; }
+.hs-courses { font-size:7.5px; color:#212529; line-height:1.7; }
+
+/* ── RIGHT ── */
+.right-col {
+  flex:1; padding:4px 0 4px 28px;
+  display:flex; flex-direction:column; justify-content:center;
+}
+
+.log-title {
+  font-size:14px; font-weight:700; color:#0C1A3A; margin-bottom:14px;
+  font-family:-apple-system,'system-ui','Segoe UI',sans-serif;
+}
+
+.log-table { width:100%; border-collapse:collapse; font-size:10px; table-layout:fixed; }
+.log-table thead tr { background:#0C1A3A; }
+.log-table th {
+  padding:7px 8px; text-align:left; font-size:8px; font-weight:700;
+  letter-spacing:0.8px; text-transform:uppercase; color:#FFCB05;
+  font-family:-apple-system,'system-ui','Segoe UI',sans-serif;
+  white-space:nowrap; overflow:hidden;
+}
+.log-table td {
+  padding:7px 8px; color:#333; border-bottom:1px solid #e8e8e8;
+  font-size:10px; vertical-align:middle;
+  font-family:-apple-system,'system-ui','Segoe UI',sans-serif;
+}
+.log-table th:nth-child(1),
+.log-table td:nth-child(1) { width:22%; }
+.log-table th:nth-child(2),
+.log-table td:nth-child(2) { width:13%; }
+.log-table th:nth-child(3),
+.log-table td:nth-child(3) { width:13%; }
+.log-table th:nth-child(4),
+.log-table td:nth-child(4) { width:14%; }
+.log-table th:nth-child(5),
+.log-table td:nth-child(5) { width:19%; font-size:8.5px; }
+.log-table th:nth-child(6),
+.log-table td:nth-child(6) { width:19%; font-size:8.5px; }
+.log-table tr.row-hs td { background:#f0f5ff; color:#0C1A3A; }
+.log-table tr.row-hs td:first-child { font-weight:600; }
+.dwell { color:#1a7a3e; font-weight:700; }
+.pending { color:#3584C7; font-style:italic; font-size:9px; }
+.log-table tfoot td {
+  color:#0C1A3A; font-weight:700; background:#f8f8f8;
+  border-top:2px solid #0C1A3A; font-size:10px; padding:7px 10px;
+}
+.placeholder td { color:#bbb; }
+.log-row { transition:opacity 0.4s; }
+.log-row.hidden { opacity:0; }
+
+.click-prompt {
+  margin-top:14px; font-size:8.5px; color:#3584C7; transition:opacity 0.3s;
+  font-family:-apple-system,'system-ui','Segoe UI',sans-serif;
+}
+
+/* FOOTER */
+.footer-bar {
+  position:absolute; bottom:0; left:0; right:0; height:44px;
+  background:#0C1A3A; display:flex; align-items:center; padding:0 20px; gap:10px;
+}
+.m-logo {
+  background:#FFCB05; width:26px; height:26px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:900; color:#0C1A3A;
+  font-family:'Arial Black',Arial,sans-serif;
+}
+.footer-text {
+  font-size:9px; font-weight:700; color:#fff;
+  letter-spacing:2px; text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="slide-header">
+    <h1>How Process Tracing Data Were Collected</h1>
+  </div>
+
+  <div class="body">
+
+    <!-- LEFT: unified scroll -->
+    <div class="left-col">
+      <div class="app-inner" id="app-inner">
+
+        <div class="app-content">
+          <div class="app-major">Major: Engineering (Undeclared)</div>
+          <div class="app-sec-head">Student Information</div>
+          <p class="app-bold">Personal Information</p>
+          <p class="app-line">Legal name: Liam Walsh</p>
+          <div class="app-spacer"></div>
+          <p class="app-bold">Demographics</p>
+          <p class="app-line">Gender: Male</p>
+          <p class="app-line">Citizenship status: U.S. citizen or U.S. National</p>
+          <p class="app-line">Hispanic/Latino/a/x: No</p>
+          <p class="app-line">Race: White</p>
+          <div class="app-spacer"></div>
+          <p class="app-bold">Family</p>
+          <p class="app-line">Father's education: High school diploma</p>
+          <p class="app-line">Mother's education: Associate's degree</p>
+          <div class="app-sec-head">Education</div>
+          <p class="app-bold">Grades</p>
+          <p class="app-line">Cumulative GPA: 3.95 (unweighted)</p>
+          <div class="app-spacer"></div>
+          <p class="app-bold">Courses taken in current or most recent year</p>
+          <table class="course-table">
+            <tr><td>Statistics</td></tr>
+            <tr><td>AP English Literature</td></tr>
+            <tr><td>AP Chemistry</td></tr>
+            <tr><td>AP US History</td></tr>
+            <tr><td>Spanish 6</td></tr>
+          </table>
+          <div class="app-sec-head">Testing</div>
+          <p class="app-bold">SAT</p>
+          <p class="app-line">Evidence-Based Reading and Writing: 690</p>
+          <p class="app-line">Mathematics: 780</p>
+          <p class="app-bold" style="margin-top:3px">AP</p>
+          <p class="app-line">Biology: 5</p>
+          <p class="app-line">World History: 4</p>
+        </div>
+
+        <!-- accordion inside same scroll -->
+        <div class="acc-outer">
+          <div class="acc-sections">
+
+            <div class="acc-row" id="accrow-hs">
+              <button class="acc-trigger" onclick="openSection('hs')">
+                High School Profile
+                <div class="acc-icon" id="icon-hs">+</div>
+              </button>
+              <div class="acc-body" id="body-hs">
+                <div class="acc-body-inner">
+                  <div class="hs-school-name">Anytown High School</div>
+                  <div class="hs-section">School Overview</div>
+                  <table class="hs-table">
+                    <tr><td>Institutional control:</td><td>Public</td></tr>
+                    <tr><td>Number of students:</td><td>1,210</td></tr>
+                    <tr><td>Graduation rate:</td><td>87%</td></tr>
+                    <tr><td>College enrollment:</td><td>31% at 4-year / 15% at 2-year</td></tr>
+                    <tr><td>Average SAT EBRW+M:</td><td>1,050</td></tr>
+                    <tr><td>% free/reduced lunch:</td><td>67%</td></tr>
+                    <tr><td># AP courses offered:</td><td>5</td></tr>
+                    <tr><td>% who get 3+ on APs:</td><td>27%</td></tr>
+                  </table>
+                  <div class="hs-section">Demographics</div>
+                  <table class="hs-table">
+                    <tr><td>White:</td><td>85%</td></tr>
+                    <tr><td>Economically Disadvantaged:</td><td>67.01%</td></tr>
+                    <tr><td>Hispanic/Latino:</td><td>8%</td></tr>
+                  </table>
+                  <div class="hs-section">Honors and AP Curriculum</div>
+                  <div class="hs-subhead">AP Courses Offered</div>
+                  <div class="hs-courses">English Literature · Biology · Chemistry · World History · U.S. History</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="acc-row" id="accrow-tr">
+              <button class="acc-trigger" onclick="openSection('tr')">
+                Transcript
+                <div class="acc-icon" id="icon-tr">+</div>
+              </button>
+              <div class="acc-body" id="body-tr">
+                <div class="acc-body-inner">
+                  <style>
+                    .tr-table { width:100%; border-collapse:collapse; font-size:7px; font-family:-apple-system,'system-ui','Segoe UI',sans-serif; }
+                    .tr-table th, .tr-table td { border:1px solid #ccc; padding:2px 4px; text-align:center; color:#212529; }
+                    .tr-table td:first-child { text-align:left; }
+                    .tr-table .cat-header { background:#dce6f1; font-weight:700; text-align:left; font-size:7.5px; }
+                    .tr-table .subj-header { background:#e8f0fb; font-weight:700; text-align:left; }
+                    .tr-table .grade-header { background:#dce6f1; font-weight:700; font-size:6.5px; }
+                    .tr-table .col-group { background:#eef3fb; font-weight:700; font-size:6.5px; }
+                  </style>
+                  <table class="tr-table">
+                    <thead>
+                      <tr>
+                        <th class="cat-header" style="width:34%">Core Academic Courses</th>
+                        <th class="col-group" colspan="2">9th grade</th>
+                        <th class="col-group" colspan="2">10th grade</th>
+                        <th class="col-group" colspan="2">11th grade</th>
+                        <th class="col-group" colspan="2">12 grade</th>
+                      </tr>
+                      <tr>
+                        <th></th>
+                        <th class="grade-header">Sem 1</th><th class="grade-header">Sem 2</th>
+                        <th class="grade-header">Sem 1</th><th class="grade-header">Sem 2</th>
+                        <th class="grade-header">Sem 1</th><th class="grade-header">Sem 2</th>
+                        <th class="grade-header">Sem 1</th><th class="grade-header">Sem 2</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td class="subj-header" colspan="9">English</td></tr>
+                      <tr><td>English 9 Honors</td><td>A-</td><td>A</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td>English 10 Honors</td><td></td><td></td><td>A-</td><td>A</td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td>English 11 Honors</td><td></td><td></td><td></td><td></td><td>A</td><td>A</td><td></td><td></td></tr>
+                      <tr><td>AP English Literature</td><td></td><td></td><td></td><td></td><td></td><td></td><td>IP</td><td>IP</td></tr>
+                      <tr><td colspan="9" style="padding:0;height:4px;border:none"></td></tr>
+                      <tr><td class="subj-header" colspan="9">Math</td></tr>
+                      <tr><td>Geometry Honors</td><td>A</td><td>A</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td>Algebra 2 Honors</td><td></td><td></td><td>A</td><td>A</td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td>Precalculus Honors</td><td></td><td></td><td></td><td></td><td>A</td><td>A</td><td></td><td></td></tr>
+                      <tr><td>Statistics</td><td></td><td></td><td></td><td></td><td></td><td></td><td>IP</td><td>IP</td></tr>
+                      <tr><td colspan="9" style="padding:0;height:4px;border:none"></td></tr>
+                      <tr><td class="subj-header" colspan="9">Science</td></tr>
+                      <tr><td>Biology Honors</td><td>A</td><td>A</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td>AP Biology</td><td></td><td></td><td>A</td><td>A</td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td>Physics Honors</td><td></td><td></td><td></td><td></td><td>A</td><td>A</td><td></td><td></td></tr>
+                      <tr><td>AP Chemistry</td><td></td><td></td><td></td><td></td><td></td><td></td><td>IP</td><td>IP</td></tr>
+                      <tr><td colspan="9" style="padding:0;height:4px;border:none"></td></tr>
+                      <tr><td class="subj-header" colspan="9">Social Science/History</td></tr>
+                      <tr><td>Geography</td><td>A</td><td>A</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td>Economics</td><td></td><td></td><td>A-</td><td>A-</td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td>AP World History</td><td></td><td></td><td></td><td></td><td>A</td><td>A</td><td></td><td></td></tr>
+                      <tr><td>AP US History</td><td></td><td></td><td></td><td></td><td></td><td></td><td>IP</td><td>IP</td></tr>
+                      <tr><td colspan="9" style="padding:0;height:4px;border:none"></td></tr>
+                      <tr><td class="subj-header" colspan="9">Additional Language</td></tr>
+                      <tr><td>Spanish 3</td><td>A</td><td>A</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td>Spanish 4</td><td></td><td></td><td>A</td><td>A</td><td></td><td></td><td></td><td></td></tr>
+                      <tr><td>Spanish 5</td><td></td><td></td><td></td><td></td><td>A-</td><td>A</td><td></td><td></td></tr>
+                      <tr><td>Spanish 6</td><td></td><td></td><td></td><td></td><td></td><td></td><td>IP</td><td>IP</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="acc-row" id="accrow-ac">
+              <button class="acc-trigger" onclick="openSection('ac')">
+                Activities
+                <div class="acc-icon" id="icon-ac">+</div>
+              </button>
+              <div class="acc-body" id="body-ac">
+                <div class="acc-body-inner">
+                  <p style="font-size:8.5px;color:#555">Activities list available here.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="acc-row" id="accrow-es">
+              <button class="acc-trigger" onclick="openSection('es')">
+                Personal Essay
+                <div class="acc-icon" id="icon-es">+</div>
+              </button>
+              <div class="acc-body" id="body-es">
+                <div class="acc-body-inner">
+                  <p style="font-size:8.5px;color:#555">Personal essay available here.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-col">
+      <div class="log-title">How process tracing data is logged</div>
+
+      <table class="log-table">
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>Opened</th>
+            <th>Closed</th>
+            <th>Dwell time</th>
+            <th>participant_id</th>
+            <th>application_id</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="log-row row-hs hidden" id="row-hs">
+            <td>HS Profile ★</td>
+            <td id="t-open">—</td>
+            <td id="t-close">—</td>
+            <td id="t-dwell"><span class="pending">open…</span></td>
+            <td>AO_0041</td>
+            <td>APP_0173</td>
+          </tr>
+          <tr class="log-row placeholder" id="row-tr">
+            <td>Transcript</td><td>—</td><td>—</td><td>—</td><td>AO_0041</td><td>APP_0173</td>
+          </tr>
+          <tr class="log-row placeholder" id="row-ac">
+            <td>Activities</td><td>—</td><td>—</td><td>—</td><td>AO_0041</td><td>APP_0173</td>
+          </tr>
+          <tr class="log-row placeholder" id="row-es">
+            <td>Personal Essay</td><td>—</td><td>—</td><td>—</td><td>AO_0041</td><td>APP_0173</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="log-row hidden" id="row-total">
+            <td colspan="3">Total time on app</td>
+            <td id="t-total" style="font-size:8.5px;font-style:italic;color:#555">sum of all dwell time for participant × application</td>
+            <td></td><td></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="click-prompt" id="click-prompt">
+        ← Click "High School Profile" to begin
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bar">
+    <div class="m-logo">M</div>
+    <div class="footer-text">University of Michigan</div>
+  </div>
+</div>
+
+<script>
+let activeSection = null;
+let openTime = null;
+let totalStart = Date.now();
+let dwellTimer = null;
+let hsLogged = false;
+
+function pad(n) { return String(n).padStart(2,'0'); }
+function fmt(ms) { const s=Math.floor(ms/1000); return pad(Math.floor(s/60))+':'+pad(s%60); }
+
+function openSection(key) {
+  const prev = activeSection;
+
+  // close previous
+  if (prev) {
+    document.getElementById('body-'+prev).classList.remove('open');
+    const pi = document.getElementById('icon-'+prev);
+    pi.classList.remove('active');
+    pi.textContent = '+';
+
+    if (prev === 'hs' && !hsLogged) {
+      clearInterval(dwellTimer);
+      const closeTime = Date.now();
+      const dwell = ((closeTime - openTime)/1000).toFixed(1);
+      hsLogged = true;
+      document.getElementById('t-close').textContent = fmt(closeTime - totalStart);
+      document.getElementById('t-dwell').innerHTML = '<span class="dwell">'+dwell+'s</span>';
+      ['row-tr','row-ac','row-es'].forEach(id => document.getElementById(id).classList.remove('placeholder'));
+      document.getElementById('row-total').classList.remove('hidden');
+      document.getElementById('click-prompt').style.opacity = '0';
+    }
+  }
+
+  // toggle off if same
+  if (prev === key) { activeSection = null; openTime = null; return; }
+
+  // open new
+  activeSection = key;
+  openTime = Date.now();
+  document.getElementById('body-'+key).classList.add('open');
+  const ni = document.getElementById('icon-'+key);
+  ni.classList.add('active');
+  ni.textContent = '−';
+
+  // smooth scroll new section's header into view
+  setTimeout(() => {
+    document.getElementById('accrow-'+key).scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }, 50);
+
+  if (key === 'hs' && !hsLogged) {
+    document.getElementById('row-hs').classList.remove('hidden');
+    document.getElementById('t-open').textContent = fmt(openTime - totalStart);
+    document.getElementById('t-close').textContent = '—';
+    document.getElementById('t-dwell').innerHTML = '<span class="pending">open…</span>';
+    document.getElementById('click-prompt').textContent = '← Now click "Transcript" to close HS Profile & lock in dwell time';
+    dwellTimer = setInterval(() => {
+      const e = ((Date.now() - openTime)/1000).toFixed(1);
+      document.getElementById('t-dwell').innerHTML = '<span class="pending">'+e+'s…</span>';
+    }, 100);
+  }
+}
+</script>
+</body>
+</html>
